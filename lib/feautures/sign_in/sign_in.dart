@@ -24,25 +24,7 @@ class _SignInState extends State<SignIn> {
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30.sp,),
-               Center(
-                child:
-                // Image.asset('assets/PLAN_IT-removebg-preview.png')
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    //Icon(Icons.edit, color: Color(0xFF0BCC9D), size: 30.sp,),
-                    Text(
-                      'PLAN IT',
-                      style: TextStyle(
-                        fontSize: 27.sp,
-                        color: AppVariables.lightGreen,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            
               SizedBox(height: 20.sp),
 
               Text(
