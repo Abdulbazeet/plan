@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:plan/constants/variables.dart';
 import 'package:sizer/sizer.dart';
 
 class OnBoardScreen extends StatefulWidget {
@@ -23,7 +25,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 20.sp,
                 width: 20.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFF0BCC9D),
+                  color: AppVariables.lightGreen,
                   borderRadius: BorderRadius.circular(10.sp),
                 ),
               ),
@@ -35,7 +37,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 20.sp,
                 width: 20.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFFA79AE8),
+                  color:AppVariables.lightPurple,
                   borderRadius: BorderRadius.circular(10.sp),
                 ),
               ),
@@ -47,7 +49,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 40.sp,
                 width: 40.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFFA79AE8),
+                  color:AppVariables.lightPurple,
                   borderRadius: BorderRadius.circular(20.sp),
                 ),
               ),
@@ -59,7 +61,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 20.sp,
                 width: 20.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFF0BCC9D),
+                  color: AppVariables.lightGreen,
                   borderRadius: BorderRadius.circular(10.sp),
                 ),
               ),
@@ -71,7 +73,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 35.sp,
                 width: 35.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFFA79AE8),
+                  color: AppVariables.lightPurple,
                   borderRadius: BorderRadius.circular(17.5.sp),
                 ),
               ),
@@ -83,7 +85,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                 height: 25.sp,
                 width: 25.sp,
                 decoration: BoxDecoration(
-                  color: Color(0xFF0BCC9D),
+                  color: AppVariables.lightGreen,
                   borderRadius: BorderRadius.circular(12.5.sp),
                 ),
               ),
@@ -91,7 +93,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
             Center(
               child:
               // Image.asset('assets/PLAN_IT-removebg-preview.png')
-               Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Icon(Icons.edit, color: Color(0xFF0BCC9D), size: 30.sp,),
@@ -99,7 +101,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                     'PLAN IT',
                     style: TextStyle(
                       fontSize: 27.sp,
-                      color: Color(0xFF0BCC9D),
+                      color:AppVariables.lightGreen,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -161,15 +163,17 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF0BCC9D),
+                        backgroundColor: AppVariables.lightGreen,
                         fixedSize: Size(100.w, 30.sp),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go('/sign-in');
+                      },
                       child: Text(
-                        'Sign in',
+                        'SIGN IN',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
@@ -182,9 +186,11 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                           borderRadius: BorderRadius.circular(10.sp),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.go('/sign-up');
+                      },
                       child: Text(
-                        'Sign in',
+                        'CREATE NEW ACCOUNT',
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
