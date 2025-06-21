@@ -24,7 +24,6 @@ class _SignInState extends State<SignIn> {
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            
               SizedBox(height: 20.sp),
 
               Text(
@@ -138,8 +137,10 @@ class _SignInState extends State<SignIn> {
                     borderRadius: BorderRadius.circular(10.sp),
                   ),
                 ),
-                onPressed: () {},
-                child: Text('SIGN UP', style: TextStyle(color: Colors.white)),
+                onPressed: () {
+                  context.go('/homescreen');
+                },
+                child: Text('SIGN IN', style: TextStyle(color: Colors.white)),
               ),
 
               //**

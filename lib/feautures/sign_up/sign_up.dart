@@ -223,7 +223,9 @@ class _SignUpState extends State<SignUp> {
                     borderRadius: BorderRadius.circular(10.sp),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  context.go('/sign-in');
+                },
                 child: Text('SIGN UP', style: TextStyle(color: Colors.white)),
               ),
 
@@ -299,7 +301,6 @@ class _SignUpState extends State<SignUp> {
               //**
               //signin option
               // */
-              
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
