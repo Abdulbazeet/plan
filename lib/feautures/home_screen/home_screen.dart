@@ -4,6 +4,7 @@ import 'package:plan/feautures/calendar/calendar.dart';
 import 'package:plan/feautures/home/home.dart';
 import 'package:plan/feautures/notes/notes.dart';
 import 'package:plan/feautures/profile/profile.dart';
+import 'package:plan/feautures/shared/shared.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,30 +16,42 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
-  final List _body = [Home(), Calendar(), Notes(), Profile()];
+  final List _body = [Home(), Calendar(), Notes(), Shared()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppVariables.bgColor,
-      appBar: AppBar(
-        title: Text(
-          'Olatunji',
-          style: TextStyle(
-            fontSize: 17.sp,
-            fontWeight: FontWeight.bold,
-            color: AppVariables.lightGreen,
+      appBar: switch (_index) {
+        0 => AppBar(
+          title: Text(
+            'Olatunji',
+            style: TextStyle(
+              fontSize: 17.sp,
+              fontWeight: FontWeight.bold,
+              color: AppVariables.lightGreen,
+            ),
+          ),
+          actions: [Icon(Icons.notifications_outlined)],
+          actionsPadding: EdgeInsets.symmetric(horizontal: 20.sp),
+        ),
+        1 => AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            'Calendar',
+            style: TextStyle(
+              fontSize: 17.sp,
+              fontWeight: FontWeight.bold,
+              color: AppVariables.lightGreen,
+            ),
           ),
         ),
-        actions: [
-         
-          Icon(Icons.notifications_outlined),
-        ],
-        actionsPadding: EdgeInsets.symmetric(horizontal: 20.sp),
-      ),
+        _ => null,
+      },
+
       drawer: Drawer(),
       body: _body[_index],
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(15.sp).copyWith(bottom: 25.sp),
+        padding: EdgeInsets.all(15.sp),
         child: ClipRRect(
           borderRadius: BorderRadius.horizontal(
             left: Radius.circular(20.sp),
@@ -112,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BottomNavigationBarItem(
                   icon: Image.asset(
                     'assets/icons8-calendar-32.png',
+                    color: Colors.black,
                     height: 20.sp,
                     width: 20.sp,
                   ),
@@ -154,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 BottomNavigationBarItem(
                   icon: Image.asset(
                     'assets/icons8-notes-32.png',
+                    color: Colors.black,
                     height: 20.sp,
                     width: 20.sp,
                   ),
@@ -194,11 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Image.asset(
-                    'assets/icons8-test-account-32.png',
-                    height: 20.sp,
-                    width: 20.sp,
-                  ),
+                  icon: Icon(Icons.group_outlined, color: Colors.black54),
                   activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
@@ -213,15 +224,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FittedBox(
                       child: Row(
                         children: [
-                          Image.asset(
-                            'assets/icons8-test-account-32.png',
-                            color: Colors.white,
-                            height: 20.sp,
-                            width: 20.sp,
-                          ),
+                          Icon(Icons.group_outlined, color: Colors.white),
                           SizedBox(width: 10.sp),
                           Text(
-                            'Notes',
+                            'Shared',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -232,7 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  label: 'Profile',
+                  label: '',
                 ),
               ],
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plan/constants/variables.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -10,6 +11,6 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(backgroundColor: AppVariables.bgColor);
   }
 }

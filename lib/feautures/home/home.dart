@@ -380,7 +380,9 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                           SizedBox(width: 20.sp),
-                          Icon(Icons.folder_outlined, color: Colors.black45,
+                          Icon(
+                            Icons.folder_outlined,
+                            color: Colors.black45,
                             size: 17.sp,
                           ),
                           SizedBox(width: 10.sp),
@@ -398,6 +400,38 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
+      ),
+
+      //**
+      //floating ction buttons
+      // */
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IconButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor:  Color.fromARGB(255, 189, 229, 219),
+              fixedSize: Size(25.sp, 25.sp),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.sp),
+              ),
+            ),
+            onPressed: () {},
+            icon:Image.asset('assets/ai.png'),
+          ),
+          SizedBox(height: 10.sp),
+          IconButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppVariables.lightGreen,
+              fixedSize: Size(30.sp, 30.sp),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.sp),
+              ),
+            ),
+            onPressed: () {},
+            icon: Icon(Icons.add, color: Colors.white),
+          ),
+        ],
       ),
     );
   }
