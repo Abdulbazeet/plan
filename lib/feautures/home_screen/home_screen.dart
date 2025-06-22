@@ -20,6 +20,22 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppVariables.bgColor,
+      appBar: AppBar(
+        title: Text(
+          'Olatunji',
+          style: TextStyle(
+            fontSize: 17.sp,
+            fontWeight: FontWeight.bold,
+            color: AppVariables.lightGreen,
+          ),
+        ),
+        actions: [
+         
+          Icon(Icons.notifications_outlined),
+        ],
+        actionsPadding: EdgeInsets.symmetric(horizontal: 20.sp),
+      ),
+      drawer: Drawer(),
       body: _body[_index],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(15.sp).copyWith(bottom: 25.sp),
@@ -32,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
             data: Theme.of(context).copyWith(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
-              navigationBarTheme: NavigationBarThemeData(height: 50.sp),
+              //   bottomNavigationBarTheme: BottomNavigationBarThemeData()
             ),
             child: BottomNavigationBar(
               elevation: 10.sp,
@@ -53,38 +69,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 BottomNavigationBarItem(
                   icon: Image.asset(
                     'assets/icons8-home-32.png',
-                    height: 20.sp,
-                    width: 20.sp,
+                    height: 18.sp,
+                    width: 18.sp,
                   ),
                   activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
                       color: AppVariables.lightGreen,
-                      borderRadius: BorderRadius.circular(18.sp),
+                      borderRadius: BorderRadius.circular(15.sp),
                     ),
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.sp,
                       vertical: 12.sp,
                     ),
-                    margin: EdgeInsets.only(left: 15.sp),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons8-home-32.png',
-                          color: Colors.white,
-                          height: 20.sp,
-                          width: 20.sp,
-                        ),
-                        SizedBox(width: 10.sp),
-                        Text(
-                          'Home',
-                          style: TextStyle(
+                    margin: EdgeInsets.only(left: 5.sp),
+                    child: FittedBox(
+                      //   fit: BoxFit.scaleDown,
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons8-home-32.png',
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.sp,
+                            height: 20.sp,
+                            width: 20.sp,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10.sp),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
 
@@ -96,35 +115,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20.sp,
                     width: 20.sp,
                   ),
-                  activeIcon:  Container(
+                  activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
                       color: AppVariables.lightGreen,
-                      borderRadius: BorderRadius.circular(18.sp),
+                      borderRadius: BorderRadius.circular(15.sp),
                     ),
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.sp,
                       vertical: 12.sp,
                     ),
-                    margin: EdgeInsets.only(left: 15.sp),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons8-calendar-32.png',
-                          color: Colors.white,
-                          height: 20.sp,
-                          width: 20.sp,
-                        ),
-                        SizedBox(width: 10.sp),
-                        Text(
-                          'Calendar',
-                          style: TextStyle(
+                    // margin: EdgeInsets.only(left: 5.sp),
+                    child: FittedBox(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons8-calendar-32.png',
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.sp,
+                            height: 20.sp,
+                            width: 20.sp,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10.sp),
+                          Text(
+                            'Calendar',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   label: '',
@@ -137,35 +158,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     width: 20.sp,
                   ),
 
-                  activeIcon:  Container(
+                  activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
                       color: AppVariables.lightGreen,
-                      borderRadius: BorderRadius.circular(18.sp),
+                      borderRadius: BorderRadius.circular(15.sp),
                     ),
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.sp,
                       vertical: 12.sp,
                     ),
-                    margin: EdgeInsets.only(left: 15.sp),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/icons8-notes-32.png',
-                          color: Colors.white,
-                          height: 20.sp,
-                          width: 20.sp,
-                        ),
-                        SizedBox(width: 10.sp),
-                        Text(
-                          'Notes',
-                          style: TextStyle(
+                    // margin: EdgeInsets.only(left: 15.sp),
+                    child: FittedBox(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons8-notes-32.png',
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17.sp,
+                            height: 20.sp,
+                            width: 20.sp,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 10.sp),
+                          Text(
+                            'Notes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   label: '',
@@ -176,11 +199,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20.sp,
                     width: 20.sp,
                   ),
-                  activeIcon: Image.asset(
-                    'assets/icons8-test-account-32.png',
-                    color: AppVariables.lightGreen,
-                    height: 20.sp,
-                    width: 20.sp,
+                  activeIcon: Container(
+                    // height: 20.sp,
+                    decoration: BoxDecoration(
+                      color: AppVariables.lightGreen,
+                      borderRadius: BorderRadius.circular(15.sp),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.sp,
+                      vertical: 12.sp,
+                    ),
+                    margin: EdgeInsets.only(right: 10.sp),
+                    child: FittedBox(
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/icons8-test-account-32.png',
+                            color: Colors.white,
+                            height: 20.sp,
+                            width: 20.sp,
+                          ),
+                          SizedBox(width: 10.sp),
+                          Text(
+                            'Notes',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                   label: 'Profile',
                 ),
