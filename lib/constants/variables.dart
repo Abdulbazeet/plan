@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class AppVariables {
@@ -364,5 +365,24 @@ class AppVariables {
       'numberOfTasks': 13,
     },
   ];
-
+  //**
+  // priority list
+  static List<Map<String, dynamic>> priority = [
+    {
+      'title': 'Urgent',
+      'description': 'Requires immediate action',
+      'icon': Icon(Icons.flag, color: Colors.red),
+    },
+    {
+      'title': 'Medium',
+      'description': 'Should be done soon',
+      'icon': Icon(Icons.flag, color: Colors.yellow),
+    },
+    {
+      'title': 'Normal',
+      'description': 'Regular task, no urgency',
+      'icon': Icon(Icons.flag, color: lightGreen),
+    },
+  ];
+  // */
 }

@@ -130,21 +130,22 @@ class _AddTaskState extends State<AddTask> {
                   // priority
                   // */
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Priority',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600,
+                    child: InkWell(
+                      onTap: () {},
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Priority',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
 
-                        SizedBox(height: 10.sp),
-                        InkWell(
-                          onTap: () {},
-                          child: Container(
+                          SizedBox(height: 10.sp),
+                          Container(
+                            padding: EdgeInsets.all(10.sp),
                             height: 30.sp,
 
                             decoration: BoxDecoration(
@@ -152,9 +153,69 @@ class _AddTaskState extends State<AddTask> {
                               color: Colors.white,
                               border: Border.all(color: Colors.black45),
                             ),
+
+                            child: Row(
+                              children: [
+                                AppVariables.priority[0]['icon'] as Icon,
+                                SizedBox(width: 10.sp),
+                                Text(
+                                  AppVariables.priority[0]['title'],
+                                  style: TextStyle(fontSize: 14.5.sp),
+                                ),
+                                Spacer(),
+                                Icon(Icons.keyboard_arrow_down_outlined),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10.sp),
+
+                  //**
+                  // repeat mode
+                  // */
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {},
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Repeat Mode',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+
+                          SizedBox(height: 10.sp),
+                          Container(
+                            padding: EdgeInsets.all(10.sp),
+                            height: 30.sp,
+
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20.sp),
+                              color: Colors.white,
+                              border: Border.all(color: Colors.black45),
+                            ),
+
+                            child: Row(
+                              children: [
+                                AppVariables.priority[0]['icon'] as Icon,
+                                SizedBox(width: 10.sp),
+                                Text(
+                                  AppVariables.priority[0]['title'],
+                                  style: TextStyle(fontSize: 14.5.sp),
+                                ),
+                                Spacer(),
+                                Icon(Icons.keyboard_arrow_down_outlined),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
