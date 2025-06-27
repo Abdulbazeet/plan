@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:plan/constants/variables.dart';
 import 'package:sizer/sizer.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -215,7 +216,6 @@ class _HomeState extends State<Home> {
                       final _color =
                           taskColors[_random.nextInt(taskColors.length)];
                       return Container(
-
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.all(12.sp),
                         decoration: BoxDecoration(
@@ -412,14 +412,14 @@ class _HomeState extends State<Home> {
         children: [
           IconButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor:  Color.fromARGB(255, 189, 229, 219),
+              backgroundColor: Color.fromARGB(255, 189, 229, 219),
               fixedSize: Size(25.sp, 25.sp),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.sp),
               ),
             ),
             onPressed: () {},
-            icon:Image.asset('assets/ai.png'),
+            icon: Image.asset('assets/ai.png'),
           ),
           SizedBox(height: 10.sp),
           IconButton(
@@ -430,7 +430,9 @@ class _HomeState extends State<Home> {
                 borderRadius: BorderRadius.circular(15.sp),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              context.push('/add-task');
+            },
             icon: Icon(Icons.add, color: Colors.white),
           ),
         ],

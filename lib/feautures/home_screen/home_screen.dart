@@ -48,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _ => null,
       },
 
+     
       body: _body[_index],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(15.sp),
@@ -69,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
               unselectedItemColor: Colors.black,
               showUnselectedLabels: false,
               showSelectedLabels: false,
-              
               onTap: (value) {
                 setState(() {
                   _index = value;
@@ -209,10 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.account_circle_outlined,
-                    color: Colors.black54,
-                  ),
+                  icon: Icon(Icons.account_circle_outlined, color: Colors.black54),
                   activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
