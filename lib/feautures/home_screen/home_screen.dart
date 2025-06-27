@@ -4,7 +4,6 @@ import 'package:plan/feautures/calendar/calendar.dart';
 import 'package:plan/feautures/home/home.dart';
 import 'package:plan/feautures/notes/notes.dart';
 import 'package:plan/feautures/profile/profile.dart';
-import 'package:plan/feautures/shared/shared.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _index = 0;
-  final List _body = [Home(), Calendar(), Notes(), Shared()];
+  final List _body = [Home(), Calendar(), Notes(), Profile()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,11 +43,11 @@ class _HomeScreenState extends State<HomeScreen> {
               color: AppVariables.lightGreen,
             ),
           ),
+          centerTitle: true,
         ),
         _ => null,
       },
 
-      drawer: Drawer(),
       body: _body[_index],
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(15.sp),
@@ -64,12 +63,13 @@ class _HomeScreenState extends State<HomeScreen> {
               //   bottomNavigationBarTheme: BottomNavigationBarThemeData()
             ),
             child: BottomNavigationBar(
-              elevation: 10.sp,
+              elevation: 30.sp,
 
               selectedItemColor: AppVariables.lightGreen,
               unselectedItemColor: Colors.black,
               showUnselectedLabels: false,
               showSelectedLabels: false,
+              
               onTap: (value) {
                 setState(() {
                   _index = value;
@@ -209,7 +209,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.group_outlined, color: Colors.black54),
+                  icon: Icon(
+                    Icons.account_circle_outlined,
+                    color: Colors.black54,
+                  ),
                   activeIcon: Container(
                     // height: 20.sp,
                     decoration: BoxDecoration(
@@ -224,10 +227,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: FittedBox(
                       child: Row(
                         children: [
-                          Icon(Icons.group_outlined, color: Colors.white),
+                          Icon(Icons.account_circle, color: Colors.white),
                           SizedBox(width: 10.sp),
                           Text(
-                            'Shared',
+                            'Profile',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

@@ -215,7 +215,9 @@ class _HomeState extends State<Home> {
                       final _color =
                           taskColors[_random.nextInt(taskColors.length)];
                       return Container(
-                        padding: EdgeInsets.all(15.sp),
+
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.all(12.sp),
                         decoration: BoxDecoration(
                           color: _color,
                           borderRadius: BorderRadius.circular(20.sp),
