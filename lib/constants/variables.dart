@@ -372,16 +372,19 @@ class AppVariables {
       'title': 'Urgent',
       'description': 'Requires immediate action',
       'icon': Icon(Icons.flag, color: Colors.red),
+      'text_color': Colors.red,
     },
     {
       'title': 'Medium',
       'description': 'Should be done soon',
       'icon': Icon(Icons.flag, color: Colors.yellow),
+      'text_color': Colors.yellow,
     },
     {
       'title': 'Normal',
       'description': 'Regular task, no urgency',
       'icon': Icon(Icons.flag, color: lightGreen),
+      'text_color': lightGreen,
     },
   ];
   // */
