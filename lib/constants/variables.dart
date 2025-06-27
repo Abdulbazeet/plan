@@ -228,143 +228,7 @@ class AppVariables {
       'type': 'shared',
     },
   ];
-  static List<Map<String, dynamic>> taskGroups = [
-    {
-      'title': 'Mobile App Development',
-      'description':
-          'Complete the Flutter app for our client with all required features and testing',
-      'type': 'ongoing',
-      'percentage': 75,
-      'date': 'Dec 15, 2024',
-      'numberOfTasks': 12,
-    },
-    {
-      'title': 'Website Redesign Project',
-      'description':
-          'Redesign the company website with modern UI/UX and responsive design',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Nov 28, 2024',
-      'numberOfTasks': 8,
-    },
-    {
-      'title': 'Marketing Campaign Q1',
-      'description':
-          'Plan and execute marketing strategy for first quarter including social media and ads',
-      'type': 'ongoing',
-      'percentage': 45,
-      'date': 'Jan 20, 2025',
-      'numberOfTasks': 15,
-    },
-    {
-      'title': 'Database Migration',
-      'description':
-          'Migrate legacy database to new cloud infrastructure with zero downtime',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Oct 30, 2024',
-      'numberOfTasks': 6,
-    },
-    {
-      'title': 'Employee Training Program',
-      'description':
-          'Develop comprehensive training modules for new employees across departments',
-      'type': 'ongoing',
-      'percentage': 30,
-      'date': 'Feb 05, 2025',
-      'numberOfTasks': 20,
-    },
-    {
-      'title': 'Security Audit',
-      'description':
-          'Complete security assessment and implement recommended security measures',
-      'type': 'ongoing',
-      'percentage': 85,
-      'date': 'Dec 22, 2024',
-      'numberOfTasks': 9,
-    },
-    {
-      'title': 'Product Launch Event',
-      'description':
-          'Organize and execute product launch event including venue, catering, and presentations',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Sep 15, 2024',
-      'numberOfTasks': 18,
-    },
-    {
-      'title': 'API Integration',
-      'description':
-          'Integrate third-party APIs for payment processing and analytics tracking',
-      'type': 'ongoing',
-      'percentage': 60,
-      'date': 'Jan 10, 2025',
-      'numberOfTasks': 7,
-    },
-    {
-      'title': 'Content Management System',
-      'description':
-          'Build custom CMS for blog and news section with admin panel',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Aug 25, 2024',
-      'numberOfTasks': 14,
-    },
-    {
-      'title': 'User Experience Research',
-      'description':
-          'Conduct user research and usability testing for mobile application improvements',
-      'type': 'ongoing',
-      'percentage': 20,
-      'date': 'Mar 01, 2025',
-      'numberOfTasks': 11,
-    },
-    {
-      'title': 'Cloud Infrastructure Setup',
-      'description':
-          'Set up scalable cloud infrastructure with monitoring and backup systems',
-      'type': 'ongoing',
-      'percentage': 90,
-      'date': 'Dec 28, 2024',
-      'numberOfTasks': 10,
-    },
-    {
-      'title': 'Quality Assurance Testing',
-      'description':
-          'Comprehensive testing of all application features and bug fixes',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Nov 12, 2024',
-      'numberOfTasks': 16,
-    },
-    {
-      'title': 'Documentation Update',
-      'description':
-          'Update all technical documentation and user manuals for latest version',
-      'type': 'ongoing',
-      'percentage': 40,
-      'date': 'Jan 30, 2025',
-      'numberOfTasks': 5,
-    },
-    {
-      'title': 'Performance Optimization',
-      'description':
-          'Optimize application performance and reduce loading times across all modules',
-      'type': 'ongoing',
-      'percentage': 70,
-      'date': 'Feb 15, 2025',
-      'numberOfTasks': 8,
-    },
-    {
-      'title': 'Brand Identity Refresh',
-      'description':
-          'Complete rebrand including logo, colors, typography, and brand guidelines',
-      'type': 'completed',
-      'percentage': 100,
-      'date': 'Jul 20, 2024',
-      'numberOfTasks': 13,
-    },
-  ];
+
   //**
   // priority list
   static List<Map<String, dynamic>> priority = [
@@ -386,6 +250,15 @@ class AppVariables {
       'icon': Icon(Icons.flag, color: lightGreen),
       'text_color': lightGreen,
     },
+  ];
+  // ignore: prefer_final_fields
+  static  List<String> repeatMode = [
+    "None",
+    "Daily",
+    "Weekly",
+    "Monthly",
+    "Yearly",
+    "Custom",
   ];
   // */
 }
