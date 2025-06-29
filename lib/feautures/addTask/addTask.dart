@@ -19,6 +19,8 @@ class _AddTaskState extends State<AddTask> {
   Map<String, dynamic> _chosenPriority = AppVariables.priority[0];
   String _chosenMode = AppVariables.repeatMode[0];
   String _chosenRepeat = AppVariables.repeatMode2[0];
+  int _interval = 0;
+  final List<String> _days = ["S", "M", "T", "W", "T", "F", "S"];
   showPriority() {
     return showModalBottomSheet(
       context: context,
@@ -209,12 +211,17 @@ class _AddTaskState extends State<AddTask> {
                   // */
                   _isCustom == true
                       ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Custom settings',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
+                          SizedBox(
+                            width: 100.w,
+                            child: Text(
+                              'Custom settings',
+                              style: TextStyle(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                           SizedBox(height: 10.sp),
@@ -229,32 +236,54 @@ class _AddTaskState extends State<AddTask> {
                                 ),
                               ),
                               SizedBox(width: 10.sp),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  fixedSize: Size.fromWidth(10.sp),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  fixedSize: Size(20.sp, 25.sp),
+                                  backgroundColor: AppVariables.lightGreen
+                                      .withValues(alpha: .2),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadiusGeometry.circular(
                                       10.sp,
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  if (_interval != 0) {
+                                    setState1(() {
+                                      _interval -= 1;
+                                    });
+                                  }
+                                },
                                 child: Icon(Icons.remove),
                               ),
                               SizedBox(width: 10.sp),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  fixedSize: Size(25.sp, 25.sp),
+                              Text(
+                                "$_interval",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14.5.sp,
+                                ),
+                              ),
+                              SizedBox(width: 10.sp),
+                              OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  fixedSize: Size(20.sp, 25.sp),
+                                  backgroundColor: AppVariables.lightGreen
+                                      .withValues(alpha: .2),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadiusGeometry.circular(
                                       10.sp,
                                     ),
                                   ),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState1(() {
+                                    _interval += 1;
+                                  });
+                                },
                                 child: Icon(Icons.add),
                               ),
-
+                              Spacer(),
                               Text(
                                 'Frequency',
                                 style: TextStyle(
@@ -324,7 +353,43 @@ class _AddTaskState extends State<AddTask> {
                             ],
                           ),
 
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 10.sp),
+                          Text(
+                            'Days of the week',
+                            style: TextStyle(
+                              fontSize: 14.5.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(height: 10.sp),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //  mainAxisSize: MainAxisSize.max,
+                            children: List.generate(7, (index) {
+                              return InkWell(
+                                onTap: () {
+                                  setState1(() {});
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(15.sp),
+                                  margin: EdgeInsets.all(5.sp),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.black45),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Text(
+                                    _days[index],
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14.5.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
                         ],
                       )
                       : SizedBox.shrink(),
