@@ -18,6 +18,7 @@ class _AddTaskState extends State<AddTask> {
   bool _isCustom = false;
   Map<String, dynamic> _chosenPriority = AppVariables.priority[0];
   String _chosenMode = AppVariables.repeatMode[0];
+  String _chosenRepeat = AppVariables.repeatMode2[0];
   showPriority() {
     return showModalBottomSheet(
       context: context,
@@ -135,8 +136,6 @@ class _AddTaskState extends State<AddTask> {
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState1) {
-            var _repeat = AppVariables.repeatMode;
-            String _chosenRepeat = AppVariables.repeatMode[0];
             return Padding(
               padding: EdgeInsets.all(15.sp),
               child: Column(
@@ -218,8 +217,44 @@ class _AddTaskState extends State<AddTask> {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
+                          SizedBox(height: 10.sp),
                           Row(
                             children: [
+                              Text(
+                                'Interval',
+                                style: TextStyle(
+                                  fontSize: 14.5.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              SizedBox(width: 10.sp),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size.fromWidth(10.sp),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.circular(
+                                      10.sp,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Icon(Icons.remove),
+                              ),
+                              SizedBox(width: 10.sp),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  fixedSize: Size(25.sp, 25.sp),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.circular(
+                                      10.sp,
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {},
+                                child: Icon(Icons.add),
+                              ),
+
                               Text(
                                 'Frequency',
                                 style: TextStyle(
@@ -230,60 +265,62 @@ class _AddTaskState extends State<AddTask> {
                               ),
                               SizedBox(width: 20.sp),
 
-                              DropdownButton<String>(
-                                dropdownColor: AppVariables.lightGreen,
-                                value: _chosenRepeat,
-                                items:
-                                    AppVariables.repeatMode
-                                        .map(
-                                          (e) => DropdownMenuItem<String>(
-                                            value: e, // Added value property
-                                            child: Text(e),
-                                          ),
-                                        )
-                                        .toList(),
-                                onChanged: (String? value) {
-                                  if (value != null) {
-                                    setState1(() {
-                                      _chosenRepeat =
-                                          value; // Actually update the value
-                                    });
-                                  }
-                                },
-                              ),
+                              //**
+                              // frequency of time
+                              // */
+                              Container(
+                                padding: EdgeInsets.all(
+                                  10.sp,
+                                ).copyWith(bottom: 0, top: 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.sp),
+                                  color: AppVariables.lightGreen,
+                                ),
+                                child: DropdownButton<String>(
+                                  // dropdownColor: AppVariables.lightGreen,
+                                  value: _chosenRepeat,
 
-                              ElevatedButton(
-                                onPressed: () {
-                                  setState(() {});
-                                },
-
-                                style: ElevatedButton.styleFrom(
-                                  fixedSize: Size.fromWidth(double.infinity),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadiusGeometry.circular(
-                                      15.sp,
-                                    ),
+                                  style: TextStyle(
+                                    fontSize: 14.5.sp,
+                                    color: Colors.white,
                                   ),
-                                  backgroundColor: AppVariables.lightGreen,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Save',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14.5.sp,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(width: 20.sp),
-                                    Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: Colors.white,
-                                    ),
-                                  ],
+                                  underline: SizedBox.shrink(),
+                                  items:
+                                      AppVariables.repeatMode2
+                                          .map(
+                                            (e) => DropdownMenuItem<String>(
+                                              onTap: () {
+                                                setState1(() {
+                                                  _chosenRepeat = e;
+                                                });
+                                              },
+
+                                              value: e, // Added value property
+                                              child: Text(
+                                                e,
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                  onChanged: (String? value) {
+                                    if (value != null) {
+                                      setState1(() {
+                                        _chosenRepeat =
+                                            value; // Actually update the value
+                                      });
+                                    }
+                                  },
                                 ),
                               ),
+                              SizedBox(height: 20.sp),
+
+                              //**
+                              // interval
+                              // */
                             ],
                           ),
 

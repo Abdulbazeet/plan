@@ -252,7 +252,7 @@ class AppVariables {
     },
   ];
   // ignore: prefer_final_fields
-  static  List<String> repeatMode = [
+  static List<String> repeatMode = [
     "None",
     "Daily",
     "Weekly",
@@ -260,5 +260,7 @@ class AppVariables {
     "Yearly",
     "Custom",
   ];
+
+  static List<String> repeatMode2 = ["None", "Day", "Week", "Month", "Year"];
   // */
 }
