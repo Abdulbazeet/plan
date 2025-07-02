@@ -28,6 +28,7 @@ class _AddTaskState extends State<AddTask> {
 
   showPriority() {
     return showModalBottomSheet(
+      isDismissible: false,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.directional(
@@ -42,15 +43,39 @@ class _AddTaskState extends State<AddTask> {
             return Padding(
               padding: EdgeInsets.all(15.sp),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Select Task Priority',
-                    style: TextStyle(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Select Task Priority',
+                        style: TextStyle(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.black38,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.black,
+                            size: 15.sp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  SizedBox(height: 20.sp),
 
                   ListView.builder(
                     shrinkWrap: true,
@@ -132,6 +157,9 @@ class _AddTaskState extends State<AddTask> {
 
   showRepeatMode() {
     return showModalBottomSheet(
+      isDismissible: false,
+      useSafeArea: true,
+
       isScrollControlled: true,
 
       context: context,
@@ -147,414 +175,447 @@ class _AddTaskState extends State<AddTask> {
           builder: (context, setState1) {
             return Padding(
               padding: EdgeInsets.all(15.sp),
-              child: Column(
-                //  crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Select Repeat Mode',
-                    style: TextStyle(
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10.sp),
-                  GridView.builder(
-                    itemCount: AppVariables.repeatMode.length,
-                    shrinkWrap: true,
-
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 20.sp,
-                      mainAxisSpacing: 10.sp,
-                      crossAxisCount: 3,
-                      childAspectRatio: 6.sp,
-                    ),
-                    itemBuilder: (context, index) {
-                      var item = AppVariables.repeatMode;
-                      return ElevatedButton(
-                        onPressed: () {
-                          setState1(() {
-                            _index1 = index;
-                          });
-                          if (index == 5) {
-                            _isCustom = true;
-                          } else {
-                            _isCustom = false;
-                            setState1(() {});
-                          }
-                        },
-
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor:
-                              _index1 == index
-                                  ? (AppVariables.lightGreen)
-                                  : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side:
-                                _index1 != index
-                                    ? BorderSide(color: Colors.grey)
-                                    : BorderSide.none,
-                            borderRadius: BorderRadiusGeometry.circular(15.sp),
-                          ),
-                        ),
-                        child: Text(
-                          item[index],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Select Repeat Mode',
                           style: TextStyle(
-                            color:
-                                _index1 == index
-                                    ? Colors.white
-                                    : Colors.black45,
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 10.sp),
-
-                  //***
-                  // custom settings
-                  // */
-                  _isCustom == true
-                      ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: 100.w,
-                            child: Text(
-                              'Custom settings',
-                              style: TextStyle(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.center,
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10.sp),
+                            decoration: BoxDecoration(
+                              color: Colors.black38,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.black,
+                              size: 15.sp,
                             ),
                           ),
-                          SizedBox(height: 10.sp),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.sp),
+                    GridView.builder(
+                      itemCount: AppVariables.repeatMode.length,
+                      shrinkWrap: true,
 
-                          //**
-                          // show interval frequency
-                          // */
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Choose interval frequency',
-                                    style: TextStyle(
-                                      fontSize: 14.5.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Switch(
-                                    activeColor: AppVariables.lightGreen,
-                                    value: _timeFrequency,
-                                    onChanged: (value) {
-                                      setState1(() {
-                                        _timeFrequency = value;
-                                        // _dayFrequency = false;
-                                      });
-                                    },
-                                  ),
-                                ],
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 20.sp,
+                        mainAxisSpacing: 10.sp,
+                        crossAxisCount: 3,
+                        childAspectRatio: 6.sp,
+                      ),
+                      itemBuilder: (context, index) {
+                        var item = AppVariables.repeatMode;
+                        return ElevatedButton(
+                          onPressed: () {
+                            setState1(() {
+                              _index1 = index;
+                            });
+                            if (index == 5) {
+                              _isCustom = true;
+                            } else {
+                              _isCustom = false;
+                              setState1(() {});
+                            }
+                          },
+
+                          style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor:
+                                _index1 == index
+                                    ? (AppVariables.lightGreen)
+                                    : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side:
+                                  _index1 != index
+                                      ? BorderSide(color: Colors.grey)
+                                      : BorderSide.none,
+                              borderRadius: BorderRadiusGeometry.circular(
+                                15.sp,
                               ),
-
-                              _timeFrequency == true
-                                  ? Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 15.sp,
-                                      vertical: 10.sp,
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          'Interval',
-                                          style: TextStyle(
-                                            fontSize: 14.5.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.sp),
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadiusGeometry.circular(
-                                                15.sp,
-                                              ),
-                                          child: InkWell(
-                                            onTap: () {
-                                              if (_interval != 0) {
-                                                setState1(() {
-                                                  _interval -= 1;
-                                                });
-                                              }
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10.sp),
-                                              decoration: BoxDecoration(
-                                                color: AppVariables.lightGreen
-                                                    .withValues(alpha: .2),
-                                              ),
-                                              child: Icon(Icons.remove),
-                                            ),
-                                          ),
-                                        ),
-
-                                        // ),
-                                        SizedBox(width: 10.sp),
-                                        Text(
-                                          "$_interval",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14.5.sp,
-                                          ),
-                                        ),
-                                        SizedBox(width: 10.sp),
-                                        ClipRRect(
-                                          borderRadius:
-                                              BorderRadiusGeometry.circular(
-                                                15.sp,
-                                              ),
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState1(() {
-                                                _interval += 1;
-                                              });
-                                            },
-                                            child: Container(
-                                              padding: EdgeInsets.all(10.sp),
-                                              decoration: BoxDecoration(
-                                                color: AppVariables.lightGreen
-                                                    .withValues(alpha: .2),
-                                              ),
-                                              child: Icon(Icons.add),
-                                            ),
-                                          ),
-                                        ),
-
-                                        Spacer(),
-                                        Text(
-                                          'Frequency',
-                                          style: TextStyle(
-                                            fontSize: 14.5.sp,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        SizedBox(width: 20.sp),
-
-                                        //**
-                                        // frequency of time
-                                        // */
-                                        Container(
-                                          padding: EdgeInsets.all(
-                                            10.sp,
-                                          ).copyWith(bottom: 0, top: 0),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              15.sp,
-                                            ),
-                                            color: AppVariables.lightGreen,
-                                          ),
-                                          child: DropdownButton<String>(
-                                            // dropdownColor: AppVariables.lightGreen,
-                                            value: _chosenRepeat,
-
-                                            style: TextStyle(
-                                              fontSize: 14.5.sp,
-                                              color: Colors.white,
-                                            ),
-                                            underline: SizedBox.shrink(),
-                                            items:
-                                                AppVariables.repeatMode2
-                                                    .map(
-                                                      (e) => DropdownMenuItem<
-                                                        String
-                                                      >(
-                                                        onTap: () {
-                                                          setState1(() {
-                                                            _chosenRepeat = e;
-                                                          });
-                                                        },
-
-                                                        value:
-                                                            e, // Added value property
-                                                        child: Text(
-                                                          e,
-                                                          style: TextStyle(
-                                                            fontSize: 14.5.sp,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                    .toList(),
-                                            onChanged: (String? value) {
-                                              if (value != null) {
-                                                setState1(() {
-                                                  _chosenRepeat =
-                                                      value; // Actually update the value
-                                                });
-                                              }
-                                            },
-                                          ),
-                                        ),
-                                        SizedBox(height: 20.sp),
-
-                                        //**
-                                        // interval
-                                        // */
-                                      ],
-                                    ),
-                                  )
-                                  : SizedBox.shrink(),
-                            ],
+                            ),
                           ),
+                          child: Text(
+                            item[index],
+                            style: TextStyle(
+                              color:
+                                  _index1 == index
+                                      ? Colors.white
+                                      : Colors.black45,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    SizedBox(height: 10.sp),
 
-                          SizedBox(height: 10.sp),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Choose days of the week',
+                    //***
+                    // custom settings
+                    // */
+                    _isCustom == true
+                        ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 100.w,
+                              child: Text(
+                                'Custom settings',
                                 style: TextStyle(
-                                  fontSize: 14.5.sp,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                              Switch(
-                                activeColor: AppVariables.lightGreen,
-                                value: _dayFrequency,
-                                onChanged: (value) {
-                                  setState1(() {
-                                    _dayFrequency = value;
-                                    // _timeFrequency = false;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 10.sp),
-                          _dayFrequency == true
-                              ? Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 15.sp,
-                                  vertical: 10.sp,
-                                ),
-                                child: Row(
+                            ),
+                            SizedBox(height: 10.sp),
+
+                            //**
+                            // show interval frequency
+                            // */
+                            Column(
+                              children: [
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  //  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(7, (index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        if (!(_index2.contains(index))) {
-                                          setState1(() {
-                                            _index2.add(index);
-                                          });
-                                        } else {
-                                          setState1(() {
-                                            _index2.remove(index);
-                                          });
-                                        }
+                                  children: [
+                                    Text(
+                                      'Choose interval frequency',
+                                      style: TextStyle(
+                                        fontSize: 14.5.sp,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Switch(
+                                      activeColor: AppVariables.lightGreen,
+                                      value: _timeFrequency,
+                                      onChanged: (value) {
+                                        setState1(() {
+                                          _timeFrequency = value;
+                                          // _dayFrequency = false;
+                                        });
                                       },
-                                      child: Container(
-                                        padding: EdgeInsets.all(15.sp),
-                                        margin: EdgeInsets.all(5.sp),
-                                        decoration: BoxDecoration(
-                                          color:
-                                              !(_index2.contains(index))
-                                                  ? null
-                                                  : AppVariables.lightGreen,
-                                          border:
-                                              !(_index2.contains(index))
-                                                  ? Border.all(
-                                                    color: Colors.black45,
-                                                  )
-                                                  : null,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Text(
-                                          _days[index],
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 14.5.sp,
-                                            fontWeight: FontWeight.w600,
+                                    ),
+                                  ],
+                                ),
+
+                                _timeFrequency == true
+                                    ? Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 15.sp,
+                                        vertical: 10.sp,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Interval',
+                                            style: TextStyle(
+                                              fontSize: 14.5.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.sp),
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadiusGeometry.circular(
+                                                  15.sp,
+                                                ),
+                                            child: InkWell(
+                                              onTap: () {
+                                                if (_interval != 0) {
+                                                  setState1(() {
+                                                    _interval -= 1;
+                                                  });
+                                                }
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10.sp),
+                                                decoration: BoxDecoration(
+                                                  color: AppVariables.lightGreen
+                                                      .withValues(alpha: .2),
+                                                ),
+                                                child: Icon(Icons.remove),
+                                              ),
+                                            ),
+                                          ),
+
+                                          // ),
+                                          SizedBox(width: 10.sp),
+                                          Text(
+                                            "$_interval",
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14.5.sp,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.sp),
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadiusGeometry.circular(
+                                                  15.sp,
+                                                ),
+                                            child: InkWell(
+                                              onTap: () {
+                                                setState1(() {
+                                                  _interval += 1;
+                                                });
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.all(10.sp),
+                                                decoration: BoxDecoration(
+                                                  color: AppVariables.lightGreen
+                                                      .withValues(alpha: .2),
+                                                ),
+                                                child: Icon(Icons.add),
+                                              ),
+                                            ),
+                                          ),
+
+                                          Spacer(),
+                                          Text(
+                                            'Frequency',
+                                            style: TextStyle(
+                                              fontSize: 14.5.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.black54,
+                                            ),
+                                          ),
+                                          SizedBox(width: 20.sp),
+
+                                          //**
+                                          // frequency of time
+                                          // */
+                                          Container(
+                                            padding: EdgeInsets.all(
+                                              10.sp,
+                                            ).copyWith(bottom: 0, top: 0),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.sp),
+                                              color: AppVariables.lightGreen,
+                                            ),
+                                            child: DropdownButton<String>(
+                                              // dropdownColor: AppVariables.lightGreen,
+                                              value: _chosenRepeat,
+
+                                              style: TextStyle(
+                                                fontSize: 14.5.sp,
+                                                color: Colors.white,
+                                              ),
+                                              underline: SizedBox.shrink(),
+                                              items:
+                                                  AppVariables.repeatMode2
+                                                      .map(
+                                                        (e) => DropdownMenuItem<
+                                                          String
+                                                        >(
+                                                          onTap: () {
+                                                            setState1(() {
+                                                              _chosenRepeat = e;
+                                                            });
+                                                          },
+
+                                                          value:
+                                                              e, // Added value property
+                                                          child: Text(
+                                                            e,
+                                                            style: TextStyle(
+                                                              fontSize: 14.5.sp,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                      .toList(),
+                                              onChanged: (String? value) {
+                                                if (value != null) {
+                                                  setState1(() {
+                                                    _chosenRepeat =
+                                                        value; // Actually update the value
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          SizedBox(height: 20.sp),
+
+                                          //**
+                                          // interval
+                                          // */
+                                        ],
+                                      ),
+                                    )
+                                    : SizedBox.shrink(),
+                              ],
+                            ),
+
+                            SizedBox(height: 10.sp),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Choose days of the week',
+                                  style: TextStyle(
+                                    fontSize: 14.5.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Switch(
+                                  activeColor: AppVariables.lightGreen,
+                                  value: _dayFrequency,
+                                  onChanged: (value) {
+                                    setState1(() {
+                                      _dayFrequency = value;
+                                      // _timeFrequency = false;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10.sp),
+                            _dayFrequency == true
+                                ? Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 15.sp,
+                                    vertical: 10.sp,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    //  mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(7, (index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (!(_index2.contains(index))) {
+                                            setState1(() {
+                                              _index2.add(index);
+                                            });
+                                          } else {
+                                            setState1(() {
+                                              _index2.remove(index);
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(15.sp),
+                                          margin: EdgeInsets.all(5.sp),
+                                          decoration: BoxDecoration(
+                                            color:
+                                                !(_index2.contains(index))
+                                                    ? null
+                                                    : AppVariables.lightGreen,
+                                            border:
+                                                !(_index2.contains(index))
+                                                    ? Border.all(
+                                                      color: Colors.black45,
+                                                    )
+                                                    : null,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Text(
+                                            _days[index],
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14.5.sp,
+                                              fontWeight: FontWeight.w600,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              )
-                              : SizedBox.shrink(),
+                                      );
+                                    }),
+                                  ),
+                                )
+                                : SizedBox.shrink(),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Choose an end occurrence period',
-                                style: TextStyle(
-                                  fontSize: 14.5.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Switch(
-                                activeColor: AppVariables.lightGreen,
-                                value: _endOccurrence,
-                                onChanged: (value) {
-                                  setState1(() {
-                                    _endOccurrence = value;
-                                    // _timeFrequency = false;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                      : SizedBox.shrink(),
-                  _endOccurrence == true
-                      ? Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 15.sp,
-                          vertical: 10.sp,
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       'Choose an end occurrence period',
+                            //       style: TextStyle(
+                            //         fontSize: 14.5.sp,
+                            //         fontWeight: FontWeight.w600,
+                            //         color: Colors.black,
+                            //       ),
+                            //     ),
+                            //     Switch(
+                            //       activeColor: AppVariables.lightGreen,
+                            //       value: _endOccurrence,
+                            //       onChanged: (value) {
+                            //         setState1(() {
+                            //           _endOccurrence = value;
+                            //           // _timeFrequency = false;
+                            //         });
+                            //       },
+                            //     ),
+                            //   ],
+                            // ),
+                            // _endOccurrence == true
+                            //     ? Padding(
+                            //       padding: EdgeInsets.symmetric(
+                            //         horizontal: 15.sp,
+                            //         vertical: 10.sp,
+                            //       ),
+                            //       child: DatePickerDialog(
+                            //         firstDate: DateTime(1800),
+                            //         lastDate: DateTime(3000),
+
+                            //         //  initialDate: DateTime.now,
+                            //       ),
+                            //       // child: showDatePicker(context: context, firstDate: firstDate, lastDate: lastDate),
+                            //     )
+                            //     : SizedBox.shrink(),
+                          ],
+                        )
+                        : SizedBox.shrink(),
+                    
+
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _chosenMode = AppVariables.repeatMode[_index1];
+                        });
+                        context.pop();
+                      },
+
+                      style: ElevatedButton.styleFrom(
+                        fixedSize: Size.fromWidth(100.w),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(15.sp),
                         ),
-                      //  child: DatePicker,
-                      )
-                      : SizedBox.shrink(),
-
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _chosenMode = AppVariables.repeatMode[_index1];
-                      });
-                      context.pop();
-                    },
-
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size.fromWidth(100.w),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadiusGeometry.circular(15.sp),
+                        backgroundColor: AppVariables.lightGreen,
                       ),
-                      backgroundColor: AppVariables.lightGreen,
-                    ),
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.5.sp,
-                        fontWeight: FontWeight.w600,
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.5.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           },
