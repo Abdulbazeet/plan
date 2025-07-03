@@ -25,6 +25,9 @@ class _AddTaskState extends State<AddTask> {
   bool _timeFrequency = false;
   bool _dayFrequency = false;
   bool _endOccurrence = false;
+  DateTime _startDate = DateTime.now();
+  String formatted = DateFormat('EEEE, MMMM d, y').format(_startDate);
+
 
   showPriority() {
     return showModalBottomSheet(
@@ -546,45 +549,6 @@ class _AddTaskState extends State<AddTask> {
                                   ),
                                 )
                                 : SizedBox.shrink(),
-
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     Text(
-                            //       'Choose an end occurrence period',
-                            //       style: TextStyle(
-                            //         fontSize: 14.5.sp,
-                            //         fontWeight: FontWeight.w600,
-                            //         color: Colors.black,
-                            //       ),
-                            //     ),
-                            //     Switch(
-                            //       activeColor: AppVariables.lightGreen,
-                            //       value: _endOccurrence,
-                            //       onChanged: (value) {
-                            //         setState1(() {
-                            //           _endOccurrence = value;
-                            //           // _timeFrequency = false;
-                            //         });
-                            //       },
-                            //     ),
-                            //   ],
-                            // ),
-                            // _endOccurrence == true
-                            //     ? Padding(
-                            //       padding: EdgeInsets.symmetric(
-                            //         horizontal: 15.sp,
-                            //         vertical: 10.sp,
-                            //       ),
-                            //       child: DatePickerDialog(
-                            //         firstDate: DateTime(1800),
-                            //         lastDate: DateTime(3000),
-
-                            //         //  initialDate: DateTime.now,
-                            //       ),
-                            //       // child: showDatePicker(context: context, firstDate: firstDate, lastDate: lastDate),
-                            //     )
-                            //     : SizedBox.shrink(),
                           ],
                         )
                         : SizedBox.shrink(),
@@ -722,12 +686,27 @@ class _AddTaskState extends State<AddTask> {
               InkWell(
                 onTap: () {},
                 child: Container(
+                  padding: EdgeInsets.all(10.sp),
+                  alignment: Alignment.centerLeft,
                   height: 30.sp,
                   width: 100.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.sp),
                     color: Colors.white,
                     border: Border.all(color: Colors.black45),
+                  ),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: _startDate.toString(),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14.5.sp,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -847,16 +826,15 @@ class _AddTaskState extends State<AddTask> {
               ),
 
               Wrap(
-                
                 spacing: 10.sp,
                 runSpacing: 10.sp,
-              
+
                 children: List.generate(AppVariables.categoryLists.length, (
                   index,
                 ) {
                   final item = AppVariables.categoryLists[index];
                   final isSelected = _index == index;
-              
+
                   return GestureDetector(
                     onTap: () {
                       setState(() {

@@ -152,59 +152,6 @@ class _CalendarState extends State<Calendar> {
                     ),
                   ),
 
-                  // TableCalendar(
-                  //   calendarFormat: _calendarFormat,
-
-                  //   firstDay: DateTime(1800),
-                  //   lastDay: DateTime(2100),
-
-                  //   onFormatChanged: (format) {
-                  //     print(format);
-                  //   },
-                  //   onHeaderTapped: (focusedDay) {},
-                  //   focusedDay: _focusedDay,
-
-                  //   headerStyle: HeaderStyle(
-                  //     titleCentered: true,
-                  //     formatButtonVisible: false,
-                  //   ),
-
-                  //   calendarStyle: CalendarStyle(
-                  //     tablePadding: EdgeInsets.all(0),
-                  //     //  Decoration: BoxDecoration(color: Colors.white),
-                  //     todayDecoration: BoxDecoration(
-                  //       color: AppVariables.lightGreen,
-                  //       borderRadius: BorderRadius.circular(15.sp),
-                  //     ),
-                  //   ),
-                  //   calendarBuilders: CalendarBuilders(
-                  //     headerTitleBuilder: (context, day) {
-                  //       return GestureDetector(
-                  //         onTap: () async {
-                  //           final picked = await showMonthYearPicker(
-                  //             context: context,
-                  //             initialDate: _focusedDay,
-                  //             firstDate: DateTime(1800),
-                  //             lastDate: DateTime(2100),
-                  //           );
-
-                  //           if (picked != null) {
-                  //             setState(() {
-                  //               _focusedDay = picked;
-                  //             });
-                  //           }
-                  //         },
-                  //         child: Text(
-                  //           DateFormat.yMMMM().format(day),
-                  //           style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       );
-                  //     },
-                  //   ),
-                  // ),
                   IconButton(
                     onPressed: () {
                       setState(() {
