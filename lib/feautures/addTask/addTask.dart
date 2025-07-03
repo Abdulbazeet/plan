@@ -588,7 +588,6 @@ class _AddTaskState extends State<AddTask> {
                           ],
                         )
                         : SizedBox.shrink(),
-                    
 
                     ElevatedButton(
                       onPressed: () {
@@ -835,6 +834,61 @@ class _AddTaskState extends State<AddTask> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(height: 20.sp),
+
+              //**
+              //
+              // category
+              // */
+              Text(
+                'Category',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+              ),
+
+              Wrap(
+                
+                spacing: 10.sp,
+                runSpacing: 10.sp,
+              
+                children: List.generate(AppVariables.categoryLists.length, (
+                  index,
+                ) {
+                  final item = AppVariables.categoryLists[index];
+                  final isSelected = _index == index;
+              
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _index = index;
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 18.sp,
+                        vertical: 10.sp,
+                      ),
+                      decoration: BoxDecoration(
+                        color:
+                            isSelected
+                                ? AppVariables.lightGreen
+                                : Colors.transparent,
+                        border:
+                            isSelected
+                                ? null
+                                : Border.all(color: Colors.black38),
+                        borderRadius: BorderRadius.circular(20.sp),
+                      ),
+                      child: Text(
+                        item,
+                        style: TextStyle(
+                          fontSize: 14.5.sp,
+                          color: isSelected ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
             ],
           ),

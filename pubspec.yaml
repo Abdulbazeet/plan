@@ -44,6 +44,7 @@ dependencies:
   firebase_messaging: ^15.2.7
   simple_circular_progress_bar: ^1.0.2
   table_calendar: ^3.2.0
+  month_year_picker: ^0.5.0+1
 
 dev_dependencies:
   flutter_test:

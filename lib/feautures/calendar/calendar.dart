@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plan/constants/variables.dart';
 import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -12,6 +13,11 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
+
+  DateTime _focusedDay = DateTime.now();
+  DateTime _selectedDay = DateTime.now();
+  bool _showMonthYearPicker = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,28 +38,173 @@ class _CalendarState extends State<Calendar> {
                 children: [
                   TableCalendar(
                     calendarFormat: _calendarFormat,
-                    focusedDay: DateTime.now(),
+                    focusedDay: _focusedDay,
                     firstDay: DateTime(1800),
                     lastDay: DateTime(2100),
-                    onDaySelected: (selectedDay, focusedDay) {},
                     onFormatChanged: (format) {
-                      print(format);
+                      setState(() {
+                        _calendarFormat = format;
+                      });
                     },
-                    onHeaderTapped: (focusedDay) {},
 
-                    headerStyle: HeaderStyle(titleCentered: true),
-
+                    onDaySelected: (selectedDay, focusedDay) {
+                      setState(() {
+                        _selectedDay = selectedDay;
+                        _focusedDay = focusedDay;
+                      });
+                    },
+                    selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+                    headerVisible: true,
+                    headerStyle: HeaderStyle(
+                      titleCentered: true,
+                      formatButtonVisible: false,
+                      titleTextFormatter:
+                          (_, __) => '', // hide default header title
+                    ),
                     calendarStyle: CalendarStyle(
-                      tablePadding: EdgeInsets.all(0),
-                      //  Decoration: BoxDecoration(color: Colors.white),
+                      selectedDecoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppVariables.lightPurple,
+                        // borderRadius: BorderRadius.circular(15),
+                      ),
+                      tablePadding: EdgeInsets.zero,
                       todayDecoration: BoxDecoration(
                         color: AppVariables.lightGreen,
-                        borderRadius: BorderRadius.circular(15.sp),
+                        borderRadius: BorderRadius.circular(15),
                       ),
                     ),
-                    calendarBuilders: CalendarBuilders(),
+                    calendarBuilders: CalendarBuilders(
+                      headerTitleBuilder: (context, day) {
+                        return _showMonthYearPicker
+                            ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                DropdownButton<int>(
+                                  value: _focusedDay.month,
+                                  items: List.generate(12, (index) {
+                                    final month = index + 1;
+                                    return DropdownMenuItem(
+                                      value: month,
+                                      child: Text(
+                                        DateFormat.MMMM().format(
+                                          DateTime(0, month),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        _focusedDay = DateTime(
+                                          _focusedDay.year,
+                                          value,
+                                        );
+                                      });
+                                    }
+                                  },
+                                ),
+                                const SizedBox(width: 8),
+                                DropdownButton<int>(
+                                  value: _focusedDay.year,
+                                  items: List.generate(301, (index) {
+                                    final year = 1800 + index;
+                                    return DropdownMenuItem(
+                                      value: year,
+                                      child: Text('$year'),
+                                    );
+                                  }),
+                                  onChanged: (value) {
+                                    if (value != null) {
+                                      setState(() {
+                                        _focusedDay = DateTime(
+                                          value,
+                                          _focusedDay.month,
+                                        );
+                                      });
+                                    }
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.check),
+                                  onPressed: () {
+                                    setState(() {
+                                      _showMonthYearPicker = false;
+                                    });
+                                  },
+                                ),
+                              ],
+                            )
+                            : GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _showMonthYearPicker = true;
+                                });
+                              },
+                              child: Text(
+                                DateFormat.yMMMM().format(day),
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            );
+                      },
+                    ),
                   ),
 
+                  // TableCalendar(
+                  //   calendarFormat: _calendarFormat,
+
+                  //   firstDay: DateTime(1800),
+                  //   lastDay: DateTime(2100),
+
+                  //   onFormatChanged: (format) {
+                  //     print(format);
+                  //   },
+                  //   onHeaderTapped: (focusedDay) {},
+                  //   focusedDay: _focusedDay,
+
+                  //   headerStyle: HeaderStyle(
+                  //     titleCentered: true,
+                  //     formatButtonVisible: false,
+                  //   ),
+
+                  //   calendarStyle: CalendarStyle(
+                  //     tablePadding: EdgeInsets.all(0),
+                  //     //  Decoration: BoxDecoration(color: Colors.white),
+                  //     todayDecoration: BoxDecoration(
+                  //       color: AppVariables.lightGreen,
+                  //       borderRadius: BorderRadius.circular(15.sp),
+                  //     ),
+                  //   ),
+                  //   calendarBuilders: CalendarBuilders(
+                  //     headerTitleBuilder: (context, day) {
+                  //       return GestureDetector(
+                  //         onTap: () async {
+                  //           final picked = await showMonthYearPicker(
+                  //             context: context,
+                  //             initialDate: _focusedDay,
+                  //             firstDate: DateTime(1800),
+                  //             lastDate: DateTime(2100),
+                  //           );
+
+                  //           if (picked != null) {
+                  //             setState(() {
+                  //               _focusedDay = picked;
+                  //             });
+                  //           }
+                  //         },
+                  //         child: Text(
+                  //           DateFormat.yMMMM().format(day),
+                  //           style: TextStyle(
+                  //             fontSize: 18,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   IconButton(
                     onPressed: () {
                       setState(() {

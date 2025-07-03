@@ -262,5 +262,16 @@ class AppVariables {
   ];
 
   static List<String> repeatMode2 = ["None", "Day", "Week", "Month", "Year"];
+
+  static List<String> categoryLists = [
+    "Personal",
+    "Work",
+    "Family",
+    "Health",
+    "Education",
+    "Shopping",
+    "Others",
+    "Custom",
+  ];
   // */
 }
