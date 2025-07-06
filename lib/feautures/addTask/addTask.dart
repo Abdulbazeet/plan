@@ -1,7 +1,11 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:plan/constants/variables.dart';
 import 'package:sizer/sizer.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({super.key});
@@ -25,9 +29,7 @@ class _AddTaskState extends State<AddTask> {
   bool _timeFrequency = false;
   bool _dayFrequency = false;
   bool _endOccurrence = false;
-  DateTime _startDate = DateTime.now();
-  String formatted = DateFormat('EEEE, MMMM d, y').format(_startDate);
-
+  String formatted = DateFormat('EEEE, MMMM d, y').format(DateTime.now());
 
   showPriority() {
     return showModalBottomSheet(
@@ -587,6 +589,419 @@ class _AddTaskState extends State<AddTask> {
     );
   }
 
+  //**
+  // due date dialog
+  // */
+
+  showDueDate() {
+    DateTime _focusedDay = DateTime.now();
+    DateTime _focusedDay2 = DateTime.now();
+    DateTime _selectedDay = DateTime.now();
+    DateTime _selectedDay2 = DateTime.now();
+
+    bool _startDate = true;
+    bool _endDate = false;
+    bool _showMonthYearPicker = false;
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      useSafeArea: true,
+
+      isScrollControlled: true,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.directional(
+          topEnd: Radius.circular(20.sp),
+          topStart: Radius.circular(20.sp),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState1) {
+            return Padding(
+              padding: EdgeInsets.all(15.sp),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Date and Time',
+                          style: TextStyle(
+                            fontSize: 17.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10.sp),
+                            decoration: BoxDecoration(
+                              color: Colors.black38,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.black,
+                              size: 15.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.sp),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Choose start date',
+                          style: TextStyle(
+                            fontSize: 14.5.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Switch(
+                          activeColor: AppVariables.lightGreen,
+                          value: _startDate,
+                          onChanged: (value) {
+                            setState1(() {
+                              _startDate = value;
+                            });
+
+                            value == true
+                                ? setState1(() {
+                                  _endDate = false;
+                                })
+                                : null;
+                          },
+                        ),
+                      ],
+                    ),
+
+                    _startDate
+                        ? Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          decoration: BoxDecoration(
+                            color: AppVariables.lightGreen.withValues(
+                              alpha: .1,
+                            ),
+                            borderRadius: BorderRadius.circular(20.sp),
+                          ),
+
+                          child: TableCalendar(
+                            focusedDay: _focusedDay,
+                            firstDay: DateTime(1800),
+                            lastDay: DateTime(2100),
+
+                            onDaySelected: (selectedDay, focusedDay) {
+                              setState1(() {
+                                _selectedDay = selectedDay;
+                                _focusedDay = focusedDay;
+                              });
+                            },
+                            selectedDayPredicate:
+                                (day) => isSameDay(_selectedDay, day),
+                            headerStyle: HeaderStyle(
+                              formatButtonVisible: false,
+                              // titleTextFormatter: (_, __) => '',
+                            ),
+
+                            calendarStyle: CalendarStyle(
+                              selectedDecoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppVariables.lightGreen,
+                              ),
+                              tablePadding: EdgeInsets.zero,
+                              todayDecoration: BoxDecoration(
+                                color: AppVariables.lightPurple,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            calendarBuilders: CalendarBuilders(
+                              headerTitleBuilder: (context, day) {
+                                return _showMonthYearPicker
+                                    ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        DropdownButton<int>(
+                                          value: _focusedDay.month,
+                                          items: List.generate(12, (index) {
+                                            final month = index + 1;
+                                            return DropdownMenuItem(
+                                              value: month,
+                                              child: Text(
+                                                DateFormat.MMMM().format(
+                                                  DateTime(0, month),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              setState1(() {
+                                                _focusedDay = DateTime(
+                                                  _focusedDay.year,
+                                                  value,
+                                                );
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        const SizedBox(width: 8),
+                                        DropdownButton<int>(
+                                          value: _focusedDay.year,
+                                          items: List.generate(301, (index) {
+                                            final year = 1800 + index;
+                                            return DropdownMenuItem(
+                                              value: year,
+                                              child: Text(
+                                                '$year',
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              setState1(() {
+                                                _focusedDay = DateTime(
+                                                  value,
+                                                  _focusedDay.month,
+                                                );
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.check),
+                                          onPressed: () {
+                                            setState1(() {
+                                              _showMonthYearPicker = false;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                    : GestureDetector(
+                                      onTap: () {
+                                        setState1(() {
+                                          _showMonthYearPicker = true;
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            DateFormat.yMMMM().format(day),
+                                            style: TextStyle(
+                                              fontSize: 14.5.sp,
+
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.sp),
+                                          Icon(
+                                            Icons.keyboard_arrow_down_outlined,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                              },
+                            ),
+                          ),
+                        )
+                        : SizedBox.shrink(),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Choose end date',
+                          style: TextStyle(
+                            fontSize: 14.5.sp,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Switch(
+                          activeColor: AppVariables.lightGreen,
+                          value: _endDate,
+                          onChanged: (value) {
+                            setState1(() {
+                              _endDate = value;
+                            });
+                            value == true
+                                ? setState1(() {
+                                  _startDate = false;
+                                })
+                                : null;
+                          },
+                        ),
+                      ],
+                    ),
+                    _endDate
+                        ? Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                          decoration: BoxDecoration(
+                            color: AppVariables.lightGreen.withValues(
+                              alpha: .1,
+                            ),
+                            borderRadius: BorderRadius.circular(20.sp),
+                          ),
+
+                          child: TableCalendar(
+                            focusedDay: _focusedDay2,
+                            firstDay: DateTime(1800),
+                            lastDay: DateTime(2100),
+
+                            onDaySelected: (selectedDay, focusedDay) {
+                              setState1(() {
+                                _selectedDay2 = selectedDay;
+                                _focusedDay2 = focusedDay;
+                              });
+                            },
+                            selectedDayPredicate:
+                                (day) => isSameDay(_selectedDay2, day),
+                            headerStyle: HeaderStyle(
+                              formatButtonVisible: false,
+                              // titleTextFormatter: (_, __) => '',
+                            ),
+
+                            calendarStyle: CalendarStyle(
+                              selectedDecoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppVariables.lightGreen,
+                              ),
+                              tablePadding: EdgeInsets.zero,
+                              todayDecoration: BoxDecoration(
+                                color: AppVariables.lightPurple,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            calendarBuilders: CalendarBuilders(
+                              headerTitleBuilder: (context, day) {
+                                return _showMonthYearPicker
+                                    ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        DropdownButton<int>(
+                                          value: _focusedDay2.month,
+                                          items: List.generate(12, (index) {
+                                            final month = index + 1;
+                                            return DropdownMenuItem(
+                                              value: month,
+                                              child: Text(
+                                                DateFormat.MMMM().format(
+                                                  DateTime(0, month),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              setState1(() {
+                                                _focusedDay2 = DateTime(
+                                                  _focusedDay2.year,
+                                                  value,
+                                                );
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        const SizedBox(width: 8),
+                                        DropdownButton<int>(
+                                          value: _focusedDay2.year,
+                                          items: List.generate(301, (index) {
+                                            final year = 1800 + index;
+                                            return DropdownMenuItem(
+                                              value: year,
+                                              child: Text(
+                                                '$year',
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                          onChanged: (value) {
+                                            if (value != null) {
+                                              setState1(() {
+                                                _focusedDay2 = DateTime(
+                                                  value,
+                                                  _focusedDay2.month,
+                                                );
+                                              });
+                                            }
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.check),
+                                          onPressed: () {
+                                            setState1(() {
+                                              _showMonthYearPicker = false;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    )
+                                    : GestureDetector(
+                                      onTap: () {
+                                        setState1(() {
+                                          _showMonthYearPicker = true;
+                                        });
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            DateFormat.yMMMM().format(day),
+                                            style: TextStyle(
+                                              fontSize: 14.5.sp,
+
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10.sp),
+                                          Icon(
+                                            Icons.keyboard_arrow_down_outlined,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                              },
+                            ),
+                          ),
+                        )
+                        : SizedBox.shrink(),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -662,7 +1077,6 @@ class _AddTaskState extends State<AddTask> {
                   filled: true,
 
                   fillColor: Colors.white,
-
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black45),
                     borderRadius: BorderRadius.circular(20.sp),
@@ -684,7 +1098,9 @@ class _AddTaskState extends State<AddTask> {
               ),
               SizedBox(height: 10.sp),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  showDueDate();
+                },
                 child: Container(
                   padding: EdgeInsets.all(10.sp),
                   alignment: Alignment.centerLeft,
@@ -695,18 +1111,20 @@ class _AddTaskState extends State<AddTask> {
                     color: Colors.white,
                     border: Border.all(color: Colors.black45),
                   ),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: _startDate.toString(),
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14.5.sp,
-                          ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.calendar_month, color: Colors.black38),
+                      SizedBox(width: 10.sp),
+                      Text(
+                        formatted,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.5.sp,
                         ),
-                      ],
-                    ),
+                      ),
+                      Spacer(),
+                      Icon(Icons.keyboard_arrow_down_sharp),
+                    ],
                   ),
                 ),
               ),

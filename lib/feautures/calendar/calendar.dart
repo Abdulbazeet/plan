@@ -65,7 +65,6 @@ class _CalendarState extends State<Calendar> {
                       selectedDecoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppVariables.lightPurple,
-                        // borderRadius: BorderRadius.circular(15),
                       ),
                       tablePadding: EdgeInsets.zero,
                       todayDecoration: BoxDecoration(
@@ -89,6 +88,10 @@ class _CalendarState extends State<Calendar> {
                                         DateFormat.MMMM().format(
                                           DateTime(0, month),
                                         ),
+                                        style: TextStyle(
+                                          fontSize: 14.5.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     );
                                   }),
@@ -110,7 +113,10 @@ class _CalendarState extends State<Calendar> {
                                     final year = 1800 + index;
                                     return DropdownMenuItem(
                                       value: year,
-                                      child: Text('$year'),
+                                      child: Text('$year', style: TextStyle(
+                                          fontSize: 14.5.sp,
+                                          fontWeight: FontWeight.bold,
+                                        ),),
                                     );
                                   }),
                                   onChanged: (value) {
@@ -140,12 +146,18 @@ class _CalendarState extends State<Calendar> {
                                   _showMonthYearPicker = true;
                                 });
                               },
-                              child: Text(
-                                DateFormat.yMMMM().format(day),
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    DateFormat.yMMMM().format(day),
+                                    style:  TextStyle(
+                                     fontSize: 14.5.sp,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                SizedBox(width: 10.sp,),
+                                Icon(Icons.keyboard_arrow_down_outlined)
+                                ],
                               ),
                             );
                       },

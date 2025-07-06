@@ -45,6 +45,7 @@ dependencies:
   simple_circular_progress_bar: ^1.0.2
   table_calendar: ^3.2.0
   month_year_picker: ^0.5.0+1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
