@@ -599,8 +599,8 @@ class _AddTaskState extends State<AddTask> {
     DateTime _selectedDay = DateTime.now();
     DateTime _selectedDay2 = DateTime.now();
 
-    bool _startDate = true;
-    bool _endDate = false;
+    bool _showStartCalendar = true;
+    bool? _endDate = false;
     bool _showMonthYearPicker = false;
     showModalBottomSheet(
       context: context,
@@ -670,23 +670,19 @@ class _AddTaskState extends State<AddTask> {
                         ),
                         Switch(
                           activeColor: AppVariables.lightGreen,
-                          value: _startDate,
+                          value: true,
                           onChanged: (value) {
-                            setState1(() {
-                              _startDate = value;
-                            });
-
-                            value == true
-                                ? setState1(() {
-                                  _endDate = false;
-                                })
-                                : null;
+                            // value == true
+                            // ? setState1(() {
+                            //   _endDate = null;
+                            // })
+                            // : null;
                           },
                         ),
                       ],
                     ),
 
-                    _startDate
+                    _showStartCalendar == true
                         ? Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.sp),
                           decoration: BoxDecoration(
@@ -839,21 +835,18 @@ class _AddTaskState extends State<AddTask> {
                         ),
                         Switch(
                           activeColor: AppVariables.lightGreen,
-                          value: _endDate,
+                          value: _endDate!,
                           onChanged: (value) {
                             setState1(() {
                               _endDate = value;
+
+                              _showStartCalendar = !value;
                             });
-                            value == true
-                                ? setState1(() {
-                                  _startDate = false;
-                                })
-                                : null;
                           },
                         ),
                       ],
                     ),
-                    _endDate
+                    _endDate == true
                         ? Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.sp),
                           decoration: BoxDecoration(
@@ -1002,6 +995,147 @@ class _AddTaskState extends State<AddTask> {
     );
   }
 
+  showTimeDialog() {
+    bool isStartime = true;
+    showModalBottomSheet(
+      context: context,
+      isDismissible: false,
+      useSafeArea: true,
+
+      isScrollControlled: true,
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.directional(
+          topEnd: Radius.circular(20.sp),
+          topStart: Radius.circular(20.sp),
+        ),
+      ),
+      backgroundColor: Colors.white,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: EdgeInsets.all(15.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Choose Time',
+                        style: TextStyle(
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.pop();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(10.sp),
+                          decoration: BoxDecoration(
+                            color: Colors.black38,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: Colors.black,
+                            size: 15.sp,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10.sp),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Start Time',
+                            style: TextStyle(
+                              fontSize: 14.5.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 15.sp),
+                          Container(
+                           margin: EdgeInsets.symmetric(horizontal: 15.sp),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.sp,
+                              vertical: 15.sp,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  isStartime == true
+                                      ? AppVariables.lightGreen
+                                      : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15.sp),
+                            ),
+                            child: Text(
+                              '09:00',
+                              style: TextStyle(
+                                fontSize: 14.5.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'End Time',
+                            style: TextStyle(
+                              fontSize: 14.5.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 15.sp),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 15.sp),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.sp,
+                              vertical: 15.sp,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  isStartime == true
+                                      ? AppVariables.lightGreen
+                                      : Colors.transparent,
+                              borderRadius: BorderRadius.circular(15.sp),
+                            ),
+                            child: Text(
+                              '13:00',
+                              style: TextStyle(
+                                fontSize: 14.5.sp,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1130,6 +1264,46 @@ class _AddTaskState extends State<AddTask> {
               ),
               SizedBox(height: 20.sp),
 
+              //**
+              // choose time of alarm
+              // */
+              Text(
+                'Set Time',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 10.sp),
+              InkWell(
+                onTap: () {
+                  showTimeDialog();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10.sp),
+                  alignment: Alignment.centerLeft,
+                  height: 30.sp,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.sp),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black45),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.timer_sharp, color: Colors.black38),
+                      SizedBox(width: 10.sp),
+                      Text(
+                        '09: 00     -     12:30',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 14.5.sp,
+                        ),
+                      ),
+                      Spacer(),
+                      Icon(Icons.keyboard_arrow_down_sharp),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.sp),
               //**
               // priority and repeat
               // */
