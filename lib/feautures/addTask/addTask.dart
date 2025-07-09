@@ -1,4 +1,4 @@
-// ignore_for_file: no_leading_underscores_for_local_identifiers
+// ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -28,8 +28,9 @@ class _AddTaskState extends State<AddTask> {
   final List<int> _index2 = [];
   bool _timeFrequency = false;
   bool _dayFrequency = false;
-  bool _endOccurrence = false;
   String formatted = DateFormat('EEEE, MMMM d, y').format(DateTime.now());
+
+  //
 
   showPriority() {
     return showModalBottomSheet(
@@ -996,7 +997,25 @@ class _AddTaskState extends State<AddTask> {
   }
 
   showTimeDialog() {
+    int _startHourIndex = 0;
+    int _startSecondsIndex = 0;
+    int _endHourIndex = 0;
+    int _endSecondsIndex = 0;
+    int hourCount = 24;
+    int secondCount = 60;
     bool isStartime = true;
+    FixedExtentScrollController _startHourcontroller =
+        FixedExtentScrollController();
+    FixedExtentScrollController _endHourcontroller =
+        FixedExtentScrollController();
+    FixedExtentScrollController _startSecondscontroller =
+        FixedExtentScrollController();
+    FixedExtentScrollController _endSecondscontroller =
+        FixedExtentScrollController();
+
+    int getHourValue(int index) => index % hourCount;
+    int getSecondsValue(int index) => index % hourCount;
+
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -1013,7 +1032,23 @@ class _AddTaskState extends State<AddTask> {
       backgroundColor: Colors.white,
       builder: (context) {
         return StatefulBuilder(
-          builder: (context, setState) {
+          builder: (context, setState1) {
+            String startTime() {
+              String _t = "00:00";
+              var _a = _startHourIndex.toString().padLeft(2, '0');
+              var _b = _startSecondsIndex.toString().padLeft(2, '0');
+
+              return _t = "$_a : $_b";
+            }
+
+            String endTime() {
+              String _t = "00:00";
+              var _a = _endHourIndex.toString().padLeft(2, '0');
+              var _b = _endSecondsIndex.toString().padLeft(2, '0');
+
+              return _t = "$_a : $_b";
+            }
+
             return Padding(
               padding: EdgeInsets.all(15.sp),
               child: Column(
@@ -1066,31 +1101,54 @@ class _AddTaskState extends State<AddTask> {
                             ),
                           ),
                           SizedBox(height: 15.sp),
-                          Container(
-                           margin: EdgeInsets.symmetric(horizontal: 15.sp),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.sp,
-                              vertical: 15.sp,
-                            ),
-                            decoration: BoxDecoration(
-                              color:
-                                  isStartime == true
-                                      ? AppVariables.lightGreen
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15.sp),
-                            ),
-                            child: Text(
-                              '09:00',
-                              style: TextStyle(
-                                fontSize: 14.5.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                          GestureDetector(
+                            onTap: () {
+                              setState1(() {
+                                isStartime = true;
+                              });
+
+                              WidgetsBinding.instance.addPostFrameCallback((
+                                timeStamp,
+                              ) {
+                                _startHourcontroller.jumpToItem(
+                                  _startHourIndex,
+                                );
+                                _startSecondscontroller.jumpToItem(
+                                  _startSecondsIndex,
+                                );
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15.sp),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.sp,
+                                vertical: 15.sp,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    isStartime == true
+                                        ? AppVariables.lightGreen
+                                        : Colors.transparent,
+                                borderRadius: BorderRadius.circular(15.sp),
+                                border:
+                                    isStartime == false ? Border.all() : null,
+                              ),
+                              child: Text(
+                                startTime(),
+                                style: TextStyle(
+                                  fontSize: 14.5.sp,
+                                  color:
+                                      isStartime == true
+                                          ? Colors.white
+                                          : Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
-                       Column(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
@@ -1101,25 +1159,47 @@ class _AddTaskState extends State<AddTask> {
                             ),
                           ),
                           SizedBox(height: 15.sp),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 15.sp),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20.sp,
-                              vertical: 15.sp,
-                            ),
-                            decoration: BoxDecoration(
-                              color:
-                                  isStartime == true
-                                      ? AppVariables.lightGreen
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15.sp),
-                            ),
-                            child: Text(
-                              '13:00',
-                              style: TextStyle(
-                                fontSize: 14.5.sp,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
+                          GestureDetector(
+                            onTap: () {
+                              setState1(() {
+                                isStartime = false;
+
+                                WidgetsBinding.instance.addPostFrameCallback((
+                                  timeStamp,
+                                ) {
+                                  _endHourcontroller.jumpToItem(_endHourIndex);
+                                  _endSecondscontroller.jumpToItem(
+                                    _endSecondsIndex,
+                                  );
+                                });
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.symmetric(horizontal: 15.sp),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20.sp,
+                                vertical: 15.sp,
+                              ),
+                              decoration: BoxDecoration(
+                                color:
+                                    isStartime == false
+                                        ? AppVariables.lightGreen
+                                        : Colors.transparent,
+                                borderRadius: BorderRadius.circular(15.sp),
+                                border:
+                                    isStartime == true ? Border.all() : null,
+                              ),
+                              child: Text(
+                                endTime(),
+                                style: TextStyle(
+                                  fontSize: 14.5.sp,
+
+                                  color:
+                                      isStartime == true
+                                          ? Colors.black
+                                          : Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
@@ -1127,6 +1207,238 @@ class _AddTaskState extends State<AddTask> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 10.sp),
+                  SizedBox(width: 100.w, child: Divider(color: Colors.black38)),
+                  SizedBox(height: 10.sp),
+                  isStartime == true
+                      ? Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 10.h,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 20.sp,
+                                perspective: .003,
+                                controller: _startHourcontroller,
+                                physics: FixedExtentScrollPhysics(),
+                                onSelectedItemChanged: (index) {
+                                  setState1(() {
+                                    _startHourIndex = getHourValue(index);
+
+                                    // _startHourIndex = index;//
+                                  });
+                                },
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                  //   childCount: _extent,
+                                  builder: (context, index) {
+                                    final hour = getHourValue(
+                                      index,
+                                    ).toString().padLeft(2, '0');
+
+                                    final isSelected =
+                                        getHourValue(index) == _startHourIndex;
+                                    // final hour = (index % hourCount)
+                                    //     .toString()
+                                    //     .padLeft(2, '0');
+                                    // final isSelected =
+                                    //     (index % hourCount) ==
+                                    //     (_startHourIndex % hourCount);
+
+                                    return Text(
+                                      hour,
+                                      style: TextStyle(
+                                        fontSize: isSelected ? 15.sp : 14.5.sp,
+                                        color:
+                                            isSelected
+                                                ? Colors.black
+                                                : Colors.black45,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Text(
+                            ':',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: 10.h,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 20.sp,
+                                perspective: .003,
+                                controller: _startSecondscontroller,
+                                physics: FixedExtentScrollPhysics(),
+                                onSelectedItemChanged: (index) {
+                                  setState1(() {
+                                    _startSecondsIndex = getSecondsValue(index);
+                                    // _startSecondsIndex = index;
+                                  });
+                                },
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                  //   childCount: _extent,
+                                  builder: (context, index) {
+                                    final seconds = getSecondsValue(
+                                      index,
+                                    ).toString().padLeft(2, '0');
+
+                                    final isSelected =
+                                        getSecondsValue(index) == _startSecondsIndex;
+
+                                    // final seconds = (index % secondCount)
+                                    //     .toString()
+                                    //     .padLeft(2, '0');
+
+                                    // final isSelected =
+                                    //     (index % secondCount) ==
+                                    //     (_startSecondsIndex % secondCount);
+                                    return Text(
+                                      seconds,
+
+                                      style: TextStyle(
+                                        fontSize: isSelected ? 15.sp : 14.5.sp,
+                                        color:
+                                            isSelected
+                                                ? Colors.black
+                                                : Colors.black45,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                      : Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 10.h,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 20.sp,
+                                perspective: .003,
+                                controller: _endHourcontroller,
+                                physics: FixedExtentScrollPhysics(),
+                                onSelectedItemChanged: (index) {
+                                  setState1(() {
+                                    _endHourIndex = getHourValue(index);
+
+                                    // _endHourIndex = index;
+                                  });
+                                },
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                  //   childCount: _extent,
+                                  builder: (context, index) {
+                                    final hour_end = getHourValue(
+                                      index,
+                                    ).toString().padLeft(2, '0');
+                                    final isSelected =
+                                        getHourValue(index) == _endHourIndex;
+
+                                    // final hour_end = (index % hourCount)
+                                    //     .toString()
+                                    //     .padLeft(2, '0');
+                                    // final isSelected =
+                                    //     (index % hourCount) ==
+                                    //     (_endHourIndex % hourCount);
+
+                                    return Text(
+                                      hour_end,
+                                      style: TextStyle(
+                                        fontSize: isSelected ? 15.sp : 14.5.sp,
+                                        color:
+                                            isSelected
+                                                ? Colors.black
+                                                : Colors.black45,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          Text(
+                            ':',
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Expanded(
+                            child: SizedBox(
+                              height: 10.h,
+                              child: ListWheelScrollView.useDelegate(
+                                itemExtent: 20.sp,
+                                perspective: .003,
+                                controller: _endSecondscontroller,
+                                physics: FixedExtentScrollPhysics(),
+                                onSelectedItemChanged: (index) {
+                                  setState1(() {
+                                    _endSecondsIndex = getSecondsValue(index);
+                                    // _endSecondsIndex = index;
+                                  });
+                                },
+                                childDelegate: ListWheelChildBuilderDelegate(
+                                  //   childCount: _extent,
+                                  builder: (context, index) {
+                                    final seconds_end = getSecondsValue(
+                                      index,
+                                    ).toString().padLeft(2, '0');
+                                    final isSelected =
+                                        getSecondsValue(index) == _endSecondsIndex;
+
+                                    // final seconds_end = (index % secondCount)
+                                    //     .toString()
+                                    //     .padLeft(2, '0');
+
+                                    // final isSelected =
+                                    //     (index % secondCount) ==
+                                    //     (_endSecondsIndex % secondCount);
+                                    return Text(
+                                      seconds_end,
+                                      style: TextStyle(
+                                        fontSize: isSelected ? 15.sp : 14.5.sp,
+                                        color:
+                                            isSelected
+                                                ? Colors.black
+                                                : Colors.black45,
+                                        fontWeight:
+                                            isSelected
+                                                ? FontWeight.w600
+                                                : FontWeight.normal,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                  SizedBox(height: 10.sp),
+                  SizedBox(width: 100.w, child: Divider(color: Colors.black38)),
                 ],
               ),
             );
