@@ -30,6 +30,8 @@ class _AddTaskState extends State<AddTask> {
   bool _dayFrequency = false;
   String formatted = DateFormat('EEEE, MMMM d, y').format(DateTime.now());
 
+  String startTaskTime = '00:00';
+  String endTaskTime = '00:00';
   //
 
   showPriority() {
@@ -997,21 +999,24 @@ class _AddTaskState extends State<AddTask> {
   }
 
   showTimeDialog() {
-    int _startHourIndex = 0;
-    int _startSecondsIndex = 0;
-    int _endHourIndex = 0;
-    int _endSecondsIndex = 0;
+    List<String> startPart = startTaskTime.split(':');
+    List<String> endParts = endTaskTime.split(':');
+
+    int _startHourIndex = int.parse(startPart[0]);
+    int _startSecondsIndex = int.parse(startPart[1]);
+    int _endHourIndex = int.parse(endParts[0]);
+    int _endSecondsIndex = int.parse(endParts[1]);
     int hourCount = 24;
     int secondCount = 60;
     bool isStartime = true;
     FixedExtentScrollController _startHourcontroller =
-        FixedExtentScrollController();
+        FixedExtentScrollController(initialItem: _startHourIndex);
     FixedExtentScrollController _endHourcontroller =
-        FixedExtentScrollController();
+        FixedExtentScrollController(initialItem: _endHourIndex);
     FixedExtentScrollController _startSecondscontroller =
-        FixedExtentScrollController();
+        FixedExtentScrollController(initialItem: _startSecondsIndex);
     FixedExtentScrollController _endSecondscontroller =
-        FixedExtentScrollController();
+        FixedExtentScrollController(initialItem: _endSecondsIndex);
 
     int getHourValue(int index) => index % hourCount;
     int getSecondsValue(int index) => index % hourCount;
@@ -1294,7 +1299,8 @@ class _AddTaskState extends State<AddTask> {
                                     ).toString().padLeft(2, '0');
 
                                     final isSelected =
-                                        getSecondsValue(index) == _startSecondsIndex;
+                                        getSecondsValue(index) ==
+                                        _startSecondsIndex;
 
                                     // final seconds = (index % secondCount)
                                     //     .toString()
@@ -1407,7 +1413,8 @@ class _AddTaskState extends State<AddTask> {
                                       index,
                                     ).toString().padLeft(2, '0');
                                     final isSelected =
-                                        getSecondsValue(index) == _endSecondsIndex;
+                                        getSecondsValue(index) ==
+                                        _endSecondsIndex;
 
                                     // final seconds_end = (index % secondCount)
                                     //     .toString()
@@ -1439,6 +1446,49 @@ class _AddTaskState extends State<AddTask> {
                       ),
                   SizedBox(height: 10.sp),
                   SizedBox(width: 100.w, child: Divider(color: Colors.black38)),
+                  SizedBox(height: 10.sp),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        if (_startHourIndex > _endHourIndex ||
+                            (_startHourIndex == _endHourIndex &&
+                                _startSecondsIndex >= _endSecondsIndex)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'End time must be after start time',
+                                style: TextStyle(fontSize: 14.5.sp),
+                              ),
+                            ),
+                          );
+                          context.pop();
+                        } else {
+                          startTaskTime = startTime();
+                          endTaskTime = endTime();
+                          context.pop();
+                        }
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.sp,
+                        vertical: 15.sp,
+                      ),
+                      backgroundColor: AppVariables.lightGreen,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.sp),
+                      ),
+                      fixedSize: Size.fromWidth(100.w),
+                    ),
+                    child: Text(
+                      'Save ',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.5.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );
@@ -1603,7 +1653,7 @@ class _AddTaskState extends State<AddTask> {
                       Icon(Icons.timer_sharp, color: Colors.black38),
                       SizedBox(width: 10.sp),
                       Text(
-                        '09: 00     -     12:30',
+                        '$startTaskTime     -     $endTaskTime',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 14.5.sp,
