@@ -28,11 +28,23 @@ class _AddTaskState extends State<AddTask> {
   final List<int> _index2 = [];
   bool _timeFrequency = false;
   bool _dayFrequency = false;
-  String formatted = DateFormat('EEEE, MMMM d, y').format(DateTime.now());
+
+  // String formatted = DateFormat('EEEE, MMMM d, y').format(DateTime.now());
 
   String startTaskTime = '00:00';
   String endTaskTime = '00:00';
   //
+  DateTime endDate = DateTime.now();
+  DateTime startDate = DateTime.now();
+  String formaatedStartDate() {
+    return DateFormat('EEE, MMMM d, y').format(startDate);
+  }
+
+  String formaatedEndDate() {
+    return DateFormat('EEE, MMMM d, y').format(endDate);
+  }
+
+  bool? _endDate = false;
 
   showPriority() {
     return showModalBottomSheet(
@@ -599,12 +611,15 @@ class _AddTaskState extends State<AddTask> {
   showDueDate() {
     DateTime _focusedDay = DateTime.now();
     DateTime _focusedDay2 = DateTime.now();
-    DateTime _selectedDay = DateTime.now();
-    DateTime _selectedDay2 = DateTime.now();
+    DateTime _selectedDay = startDate;
+    DateTime _selectedDay2 = endDate;
 
     bool _showStartCalendar = true;
-    bool? _endDate = false;
+    // bool? _endDate = false;
     bool _showMonthYearPicker = false;
+    CalendarFormat _startCalendarFormat = CalendarFormat.month;
+    CalendarFormat _endCalendarFormat = CalendarFormat.month;
+
     showModalBottomSheet(
       context: context,
       isDismissible: false,
@@ -685,8 +700,12 @@ class _AddTaskState extends State<AddTask> {
                       ],
                     ),
 
-                    _showStartCalendar == true
-                        ? Container(
+                    // _showStartCalendar == true
+                    //     ?
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.sp),
                           decoration: BoxDecoration(
                             color: AppVariables.lightGreen.withValues(
@@ -712,6 +731,7 @@ class _AddTaskState extends State<AddTask> {
                               formatButtonVisible: false,
                               // titleTextFormatter: (_, __) => '',
                             ),
+                            calendarFormat: _startCalendarFormat,
 
                             calendarStyle: CalendarStyle(
                               selectedDecoration: BoxDecoration(
@@ -822,9 +842,25 @@ class _AddTaskState extends State<AddTask> {
                               },
                             ),
                           ),
-                        )
-                        : SizedBox.shrink(),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState1(() {
+                              _startCalendarFormat =
+                                  _startCalendarFormat == CalendarFormat.month
+                                      ? CalendarFormat.week
+                                      : CalendarFormat.month;
+                            });
+                          },
+                          icon:
+                              _startCalendarFormat == CalendarFormat.month
+                                  ? Icon(Icons.keyboard_arrow_up_rounded)
+                                  : Icon(Icons.keyboard_arrow_down_sharp),
+                        ),
+                      ],
+                    ),
 
+                    // : SizedBox.shrink(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -843,151 +879,217 @@ class _AddTaskState extends State<AddTask> {
                             setState1(() {
                               _endDate = value;
 
-                              _showStartCalendar = !value;
+                              _startCalendarFormat = CalendarFormat.week;
                             });
                           },
                         ),
                       ],
                     ),
+
                     _endDate == true
-                        ? Container(
-                          padding: EdgeInsets.symmetric(horizontal: 10.sp),
-                          decoration: BoxDecoration(
-                            color: AppVariables.lightGreen.withValues(
-                              alpha: .1,
-                            ),
-                            borderRadius: BorderRadius.circular(20.sp),
-                          ),
-
-                          child: TableCalendar(
-                            focusedDay: _focusedDay2,
-                            firstDay: DateTime(1800),
-                            lastDay: DateTime(2100),
-
-                            onDaySelected: (selectedDay, focusedDay) {
-                              setState1(() {
-                                _selectedDay2 = selectedDay;
-                                _focusedDay2 = focusedDay;
-                              });
-                            },
-                            selectedDayPredicate:
-                                (day) => isSameDay(_selectedDay2, day),
-                            headerStyle: HeaderStyle(
-                              formatButtonVisible: false,
-                              // titleTextFormatter: (_, __) => '',
-                            ),
-
-                            calendarStyle: CalendarStyle(
-                              selectedDecoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppVariables.lightGreen,
+                        ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10.sp),
+                              decoration: BoxDecoration(
+                                color: AppVariables.lightGreen.withValues(
+                                  alpha: .1,
+                                ),
+                                borderRadius: BorderRadius.circular(20.sp),
                               ),
-                              tablePadding: EdgeInsets.zero,
-                              todayDecoration: BoxDecoration(
-                                color: AppVariables.lightPurple,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            calendarBuilders: CalendarBuilders(
-                              headerTitleBuilder: (context, day) {
-                                return _showMonthYearPicker
-                                    ? Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        DropdownButton<int>(
-                                          value: _focusedDay2.month,
-                                          items: List.generate(12, (index) {
-                                            final month = index + 1;
-                                            return DropdownMenuItem(
-                                              value: month,
-                                              child: Text(
-                                                DateFormat.MMMM().format(
-                                                  DateTime(0, month),
-                                                ),
-                                                style: TextStyle(
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              setState1(() {
-                                                _focusedDay2 = DateTime(
-                                                  _focusedDay2.year,
-                                                  value,
+
+                              child: TableCalendar(
+                                focusedDay: _focusedDay2,
+                                firstDay: DateTime(1800),
+                                lastDay: DateTime(2100),
+
+                                onDaySelected: (selectedDay, focusedDay) {
+                                  setState1(() {
+                                    _selectedDay2 = selectedDay;
+                                    _focusedDay2 = focusedDay;
+                                  });
+                                },
+                                calendarFormat: _endCalendarFormat,
+                                selectedDayPredicate:
+                                    (day) => isSameDay(_selectedDay2, day),
+                                headerStyle: HeaderStyle(
+                                  formatButtonVisible: false,
+                                  // titleTextFormatter: (_, __) => '',
+                                ),
+
+                                calendarStyle: CalendarStyle(
+                                  selectedDecoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: AppVariables.lightGreen,
+                                  ),
+                                  tablePadding: EdgeInsets.zero,
+                                  todayDecoration: BoxDecoration(
+                                    color: AppVariables.lightPurple,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                                calendarBuilders: CalendarBuilders(
+                                  headerTitleBuilder: (context, day) {
+                                    return _showMonthYearPicker
+                                        ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            DropdownButton<int>(
+                                              value: _focusedDay2.month,
+                                              items: List.generate(12, (index) {
+                                                final month = index + 1;
+                                                return DropdownMenuItem(
+                                                  value: month,
+                                                  child: Text(
+                                                    DateFormat.MMMM().format(
+                                                      DateTime(0, month),
+                                                    ),
+                                                    style: TextStyle(
+                                                      fontSize: 14.5.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 );
-                                              });
-                                            }
-                                          },
-                                        ),
-                                        const SizedBox(width: 8),
-                                        DropdownButton<int>(
-                                          value: _focusedDay2.year,
-                                          items: List.generate(301, (index) {
-                                            final year = 1800 + index;
-                                            return DropdownMenuItem(
-                                              value: year,
-                                              child: Text(
-                                                '$year',
-                                                style: TextStyle(
-                                                  fontSize: 14.5.sp,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                          onChanged: (value) {
-                                            if (value != null) {
-                                              setState1(() {
-                                                _focusedDay2 = DateTime(
-                                                  value,
-                                                  _focusedDay2.month,
+                                              }),
+                                              onChanged: (value) {
+                                                if (value != null) {
+                                                  setState1(() {
+                                                    _focusedDay2 = DateTime(
+                                                      _focusedDay2.year,
+                                                      value,
+                                                    );
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            const SizedBox(width: 8),
+                                            DropdownButton<int>(
+                                              value: _focusedDay2.year,
+                                              items: List.generate(301, (
+                                                index,
+                                              ) {
+                                                final year = 1800 + index;
+                                                return DropdownMenuItem(
+                                                  value: year,
+                                                  child: Text(
+                                                    '$year',
+                                                    style: TextStyle(
+                                                      fontSize: 14.5.sp,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
                                                 );
-                                              });
-                                            }
-                                          },
-                                        ),
-                                        IconButton(
-                                          icon: const Icon(Icons.check),
-                                          onPressed: () {
+                                              }),
+                                              onChanged: (value) {
+                                                if (value != null) {
+                                                  setState1(() {
+                                                    _focusedDay2 = DateTime(
+                                                      value,
+                                                      _focusedDay2.month,
+                                                    );
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(Icons.check),
+                                              onPressed: () {
+                                                setState1(() {
+                                                  _showMonthYearPicker = false;
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        )
+                                        : GestureDetector(
+                                          onTap: () {
                                             setState1(() {
-                                              _showMonthYearPicker = false;
+                                              _showMonthYearPicker = true;
                                             });
                                           },
-                                        ),
-                                      ],
-                                    )
-                                    : GestureDetector(
-                                      onTap: () {
-                                        setState1(() {
-                                          _showMonthYearPicker = true;
-                                        });
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            DateFormat.yMMMM().format(day),
-                                            style: TextStyle(
-                                              fontSize: 14.5.sp,
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                DateFormat.yMMMM().format(day),
+                                                style: TextStyle(
+                                                  fontSize: 14.5.sp,
 
-                                              fontWeight: FontWeight.bold,
-                                            ),
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(width: 10.sp),
+                                              Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_outlined,
+                                              ),
+                                            ],
                                           ),
-                                          SizedBox(width: 10.sp),
-                                          Icon(
-                                            Icons.keyboard_arrow_down_outlined,
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                              },
+                                        );
+                                  },
+                                ),
+                              ),
                             ),
-                          ),
+                            IconButton(
+                              onPressed: () {
+                                setState1(() {
+                                  _endCalendarFormat =
+                                      _endCalendarFormat == CalendarFormat.month
+                                          ? CalendarFormat.week
+                                          : CalendarFormat.month;
+                                });
+                              },
+                              icon:
+                                  _endCalendarFormat == CalendarFormat.month
+                                      ? Icon(Icons.keyboard_arrow_up_rounded)
+                                      : Icon(Icons.keyboard_arrow_down_sharp),
+                            ),
+                          ],
                         )
                         : SizedBox.shrink(),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_selectedDay2.isBefore(_selectedDay)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'End date must be after start date',
+                                style: TextStyle(fontSize: 14.5.sp),
+                              ),
+                            ),
+                          );
+                          context.pop();
+                        } else {
+                          setState(() {
+                            endDate = _selectedDay2;
+                            startDate = _selectedDay;
+                          });
+                          context.pop();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppVariables.lightGreen,
+                        fixedSize: Size.fromWidth(100.w),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(15.sp),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.sp,
+                          vertical: 15.sp,
+                        ),
+                      ),
+                      child: Text(
+                        'Save',
+                        style: TextStyle(
+                          fontSize: 14.5.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1357,13 +1459,6 @@ class _AddTaskState extends State<AddTask> {
                                     final isSelected =
                                         getHourValue(index) == _endHourIndex;
 
-                                    // final hour_end = (index % hourCount)
-                                    //     .toString()
-                                    //     .padLeft(2, '0');
-                                    // final isSelected =
-                                    //     (index % hourCount) ==
-                                    //     (_endHourIndex % hourCount);
-
                                     return Text(
                                       hour_end,
                                       style: TextStyle(
@@ -1416,13 +1511,6 @@ class _AddTaskState extends State<AddTask> {
                                         getSecondsValue(index) ==
                                         _endSecondsIndex;
 
-                                    // final seconds_end = (index % secondCount)
-                                    //     .toString()
-                                    //     .padLeft(2, '0');
-
-                                    // final isSelected =
-                                    //     (index % secondCount) ==
-                                    //     (_endSecondsIndex % secondCount);
                                     return Text(
                                       seconds_end,
                                       style: TextStyle(
@@ -1611,13 +1699,21 @@ class _AddTaskState extends State<AddTask> {
                     children: [
                       Icon(Icons.calendar_month, color: Colors.black38),
                       SizedBox(width: 10.sp),
-                      Text(
-                        formatted,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14.5.sp,
-                        ),
-                      ),
+                      _endDate == false
+                          ? Text(
+                            formaatedStartDate(),
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.5.sp,
+                            ),
+                          )
+                          : Text(
+                            "${formaatedStartDate()}     -     ${formaatedEndDate()}",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14.5.sp,
+                            ),
+                          ),
                       Spacer(),
                       Icon(Icons.keyboard_arrow_down_sharp),
                     ],
@@ -1821,6 +1917,29 @@ class _AddTaskState extends State<AddTask> {
                     ),
                   );
                 }),
+              ),
+              SizedBox(height: 20.sp),
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.sp,
+                    vertical: 15.sp,
+                  ),
+                  backgroundColor: AppVariables.lightGreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.sp),
+                  ),
+                  fixedSize: Size.fromWidth(100.w),
+                ),
+                child: Text(
+                  'Cerate Task',
+                  style: TextStyle(
+                    fontSize: 14.5.sp,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ],
           ),
