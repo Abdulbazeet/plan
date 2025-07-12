@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "648997794165",
+    "project_id": "plan-it-e6d9e",
+    "storage_bucket": "plan-it-e6d9e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:648997794165:android:ecbe5e89d33c96be56a33c",
+        "android_client_info": {
+          "package_name": "com.example.plan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "648997794165-hd4ju0dqamkn28nqh3vqtfqchg8qdv8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.plan",
+            "certificate_hash": "f02a6d6442d49b2d41243ae06d34ac5476a59ee9"
+          }
+        },
+        {
+          "client_id": "648997794165-g59nu8k8e7mp0smqt98efvqqbdeemh30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFTu_XLlCHPvmDmsr9bvFmcc7BQLwwZC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "648997794165-g59nu8k8e7mp0smqt98efvqqbdeemh30.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
