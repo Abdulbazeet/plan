@@ -37,7 +37,7 @@ dependencies:
   go_router: ^15.2.3
   sizer: ^3.0.5
   google_fonts: ^6.2.1
-  bloc: ^9.0.0
+  flutter_bloc: ^9.1.1
   firebase_auth: ^5.6.0
   firebase_core: ^3.14.0
   cloud_firestore: ^5.6.9
@@ -46,7 +46,8 @@ dependencies:
   table_calendar: ^3.2.0
   month_year_picker: ^0.5.0+1
   intl: ^0.20.2
-
+  equatable: ^2.0.7
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
