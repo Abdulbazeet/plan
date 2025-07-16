@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             ],
             child: Builder(
               builder: (context) {
-                  final goRouter = AppRoutes.goRouter(context); 
+                final goRouter = AppRoutes.goRouter;
                 return MaterialApp.router(
                   debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',

@@ -195,16 +195,9 @@ class _HomeState extends State<Home> {
 
             SizedBox(
               height: 55.sp,
-              child: PageView.builder(
-                itemCount: _pageCount,
-                scrollDirection: Axis.horizontal,
-
-                itemBuilder: (context, index) {
-                  final list =
-                      AppVariables.myLists.skip(index * 4).take(4).toList();
-                  return GridView.builder(
+              child: GridView.builder(
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: list.length,
+                    itemCount: 4,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 10.sp,
@@ -213,6 +206,7 @@ class _HomeState extends State<Home> {
                       childAspectRatio: 6.sp,
                     ),
                     itemBuilder: (context, index) {
+                      final list = AppVariables.myLists;
                       final _color =
                           taskColors[_random.nextInt(taskColors.length)];
                       return Container(
@@ -254,9 +248,7 @@ class _HomeState extends State<Home> {
                         ),
                       );
                     },
-                  );
-                },
-              ),
+                  )
             ),
 
             //**

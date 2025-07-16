@@ -1,24 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:plan/models/tasks.dart';
-
 class UserList {
   final String listname;
   final String listUid;
-  final UserTasks tasks;
+  // final List<UserTasks> tasks;
 
   UserList({
     required this.listname,
     required this.listUid,
-    required this.tasks,
+    // required this.tasks,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'listname': listname,
       'listUid': listUid,
-      'tasks': tasks.toMap(),
+      // 'tasks': tasks.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -26,7 +24,12 @@ class UserList {
     return UserList(
       listname: map['listname'] as String,
       listUid: map['listUid'] as String,
-      tasks: UserTasks.fromMap(map['tasks'] as Map<String, dynamic>),
+
+      // tasks: List<UserTasks>.from(
+      //   (map['tasks'] as List<dynamic>).map<UserTasks>(
+      //     (x) => UserTasks.fromMap(x as Map<String, dynamic>),
+      //   ),
+      // ),
     );
   }
 

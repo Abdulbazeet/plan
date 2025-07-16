@@ -22,6 +22,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         username: '',
         email: '',
         password: '',
+        userList: null,
       );
       final credentials = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
