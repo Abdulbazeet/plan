@@ -431,6 +431,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             onPressed: () {
+              print('Add Task Button Pressed');
               context.push('/add-task');
             },
             icon: Icon(Icons.add, color: Colors.white),

@@ -11,24 +11,52 @@ import 'package:plan/feautures/auth/sign_up/sign_up.dart';
 import 'package:plan/splash_screen/splash_screen.dart';
 
 class AppRoutes {
+  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
   static GoRouter goRouter(BuildContext context) {
     return GoRouter(
       refreshListenable: GoRouterRefreshStream(
         BlocProvider.of<AuthBloc>(context).stream,
       ),
+      navigatorKey: _rootNavigatorKey,
+
+      // redirect: (context, state) {
+      //   final authState = BlocProvider.of<AuthBloc>(context).state;
+      //   if (authState is AuthInitial) {
+      //     return state.matchedLocation == '/splash-screen'
+      //         ? null
+      //         : '/splash-screen';
+      //   } else if (authState is Authenticated) {
+      //     return state.matchedLocation == '/homescreen' ? null : '/homescreen';
+      //   } else if (authState is Unauthenticated) {
+      //     return state.matchedLocation == '/' ? null : '/';
+      //   }
+
+      //   return null;
+      // },
       redirect: (context, state) {
         final authState = BlocProvider.of<AuthBloc>(context).state;
+        final loc = state.fullPath;
+
+        final isAuthRoute =
+            loc == '/' || loc == '/sign-in' || loc == '/sign-up';
+        final isProtected = loc == '/homescreen' || loc == '/add-task';
+
         if (authState is AuthInitial) {
-          return null;
-        }
-        if (authState is Authenticated) {
-          return '/homescreen';
-        }
-        if (authState is Unauthenticated) {
-          return '/';
+          return loc == '/splash-screen' ? null : '/splash-screen';
         }
 
-        return null; // No redirect
+        if (authState is Authenticated) {
+          if (isAuthRoute || loc == '/splash-screen') return '/homescreen';
+          return null;
+        }
+
+        if (authState is Unauthenticated) {
+          if (isProtected) return '/';
+          return null;
+        }
+
+        return null;
       },
       routes: [
         GoRoute(path: '/', builder: (context, state) => OnBoardScreen()),

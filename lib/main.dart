@@ -31,22 +31,16 @@ class MyApp extends StatelessWidget {
             ],
             child: Builder(
               builder: (context) {
-                return BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    if (state is AuthInitial) {
-                      return SplashScreen();
-                    }
-                    return MaterialApp.router(
-                      debugShowCheckedModeBanner: false,
-                      title: 'Flutter Demo',
-                      theme: ThemeData(
-                        colorScheme: ColorScheme.fromSeed(
-                          seedColor: Colors.deepPurple,
-                        ),
-                      ),
-                      routerConfig: AppRoutes.goRouter(context),
-                    );
-                  },
+                  final goRouter = AppRoutes.goRouter(context); 
+                return MaterialApp.router(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Flutter Demo',
+                  theme: ThemeData(
+                    colorScheme: ColorScheme.fromSeed(
+                      seedColor: Colors.deepPurple,
+                    ),
+                  ),
+                  routerConfig: goRouter,
                 );
               },
             ),
